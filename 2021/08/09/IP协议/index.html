@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>IP协议 学习笔记 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="计算机网络学习笔记(4) IP协议暑假真是无趣呐,啃啃IP协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IP协议 学习笔记">
+<meta property="og:url" content="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="计算机网络学习笔记(4) IP协议暑假真是无趣呐,啃啃IP协议">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(1).png">
+<meta property="og:image" content="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(2).png">
+<meta property="og:image" content="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(3).png">
+<meta property="og:image" content="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(4).png">
+<meta property="article:published_time" content="2021-08-09T04:00:20.000Z">
+<meta property="article:modified_time" content="2021-08-13T13:33:54.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="TCP&#x2F;IP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(1).png">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033700991">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033700991">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033700991">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 57.14285714285714%;"> 
+              <img src="https://z3.ax1x.com/2021/08/09/f3eBAH.png" alt="IP协议 学习笔记" loading="lazy">
+              <h1>IP协议 学习笔记</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年08月09日</a>
+</div>
+      
+
+      <h1 id="计算机网络学习笔记-4-IP协议"><a href="#计算机网络学习笔记-4-IP协议" class="headerlink" title="计算机网络学习笔记(4) IP协议"></a>计算机网络学习笔记(4) IP协议</h1><p><del>暑假真是无趣呐,啃啃IP协议</del></p>
+<hr>
+<span id="more"></span>
+
+
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<p>IP 协议 是 <em>TCP/IP</em> 协议簇中的核心协议  所有的  </p>
+<ul>
+<li>TCP  (Transmission Control Protocol,传输控制协议)</li>
+<li>UDP  (User Datagram Protocol, 用户数据报协议)</li>
+<li>ICMP (Internet Control Message Protocol, 互联网消息控制协议)  </li>
+</ul>
+<p>数据都以IP数据报格式传输</p>
+</blockquote>
+<ul>
+<li>IP像是身份证? 公网IP具有唯一性 (这里有点问题，因为IPv4在2011年就已经枯竭，现在的ipv4地址并不一定唯一，严格上来说，每张网卡都具有的唯一的MAC地址，才接近于网络身份证)</li>
+<li>IP可以被追踪和定位</li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><blockquote>
+<p>IP协议（Internet Protocol，互联网协议），是TCP/IP协议栈中最核心的协议之一，<br>通过IP地址，保证了联网设备的唯一性，实现了网络通信的<em>面向无连接</em>和<em>不可靠的传输功能</em>。</p>
+</blockquote>
+<ul>
+<li>无连接:<blockquote>
+<ul>
+<li>指IP协议并不维护任何关于后续数据报的状态信息。每个IP数据报是相互独立的</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>不可靠:<blockquote>
+<ul>
+<li>指IP协议不能保证数据报成功到达目的地，是一种尽力而为的传输服务，路由器对IP报的错误处理方式是丢包，并发送ICMP给原地址  </li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>在多台终端访问一个服务器时，服务器如何区分不同终端的请求并且正确返回呢?</p>
+<p>只要给每个终端加上独一无二的 <em>标识(IP地址)</em> ，并且传输时放在数据包中，就可以确保整个往返过程的正确性</p>
+<p>举个栗子</p>
+<p>假如有一台终端   IP地址为114.5.1.4<br>假如有一台服务器 IP地址为19.19.8.10</p>
+<p>如下图所示:</p>
+<p><img data-fancybox="gallery" src="/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(1).png" alt="艹图" data-caption="艹图" loading="lazy"></p>
+<p>那么他们的通信过程 大概是这样的:</p>
+<ul>
+<li>client在请求数据包里面封装源目(源头/目的)IP地址，并将带有IP地址的数据包发送到Internet；</li>
+<li>Internet有大量的网络通信设备（例如路由器，交换机…），路由器根据数据包的IP地址查找路由表（地图），然后以接力棒的方式逐跳转发直到server；</li>
+<li>server收到请求数据后，将源目IP地址翻转，并封装回应数据包发送到Internet。</li>
+</ul>
+<p>稍微总结一下:</p>
+<blockquote>
+<ul>
+<li>IP协议提供IP地址，通过把原目IP放在通信数据包里，确定数据包的发送方向</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>IP协议只能指明数据包的发送者和接受者，$但是不能保证数据包一定到达目的地，以及数据是否会被丢弃，丢弃后会如何处理$，所以才说IP协议提供$面向无连接不可靠传输功能$，当然，丢包后TCP协议会解决重传之类IP协议无法解决的问题</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>IP协议除了标明收发地址外，还可以防止 数据包环路 、标明数据包重要性等标签实现流量控制、验证数据包是否损坏、实现数据包分片和组装功能。<br>这些和IP头部的封装格式有关</p>
+</blockquote>
+<h2 id="IP协议头部"><a href="#IP协议头部" class="headerlink" title="IP协议头部"></a>IP协议头部</h2><p>IP协议默认有12个字段(不算特殊字段的情况下)，它们分别是</p>
+<ul>
+<li><p>Version（版本号）：标识IP协议的版本，目前V4版本地址已经枯竭，V6慢慢成为主流。</p>
+</li>
+<li><p>Header Length（头部长度）：默认为20字节，最大为60字节。</p>
+</li>
+<li><p>Differentiated Services Field （服务区分符）：用于为不同的IP数据包定义不同的服务质量，一般应用在QoS技术中。</p>
+</li>
+<li><p>Total Length （总长度）：标识IP头部加上上层数据的数据包大小，IP包总长度最大为65535个字节。</p>
+</li>
+<li><p>Identification （标识符）：用来实现IP分片的重组，标识分片属于哪个进程，不同进程通过不同ID区分。</p>
+</li>
+<li><p>Flags（标志符）：用来确认是否还有IP分片或是否能执行分片。</p>
+</li>
+<li><p>Fragment offset （分片偏移量）：用于标识IP分片的位置，实现IP分片的重组。</p>
+</li>
+<li><p>Time to live （生存时间）：标识IP数据包还能生存多久，根据操作系统不同，TTL默认值不同，每经过一个三层设备如路由器的处理，则TTL减去1，当TTL=0时，则此数据包被丢弃。</p>
+</li>
+<li><p>Protocol （协议号）：标识IP协议上层应用。当上层协议为ICMP时，协议号为1，TCP协议号为6，UDP的协议号为17。</p>
+</li>
+<li><p>Header checksum （头部校验）：用于检验IP数据包是否完整或被修改，若校验失败则丢弃数据包。</p>
+</li>
+<li><p>Source（源IP地址）：标识发送者IP地址，占用32bit。(格式为 x.x.x.x，所以x的范围在0 ~ $2^{8}-1$)</p>
+</li>
+<li><p>Destination （目的IP地址）：标识接收者IP地址，占用32bit。</p>
+</li>
+</ul>
+<p><del>从别的博客扣了点总结下来</del></p>
+<p>7个核心知识点为:</p>
+<ol>
+<li>Source和Destination即IP源目地址字段，是IP协议最核心的字段</li>
+<li>Id+Flags+FO三个字段可以实现IP数据分片和重组</li>
+<li>Total Length和Header Length标记IP头部和上层数据的边界</li>
+<li>TTL生存时间字段可以实现通信防环</li>
+<li>DSCP服务区分符可以实现流量控制</li>
+<li>Checksum字段可以数据包完整性校验</li>
+<li>Protocol字段标记上层应用  </li>
+</ol>
+<h3 id="length-长度"><a href="#length-长度" class="headerlink" title="length 长度"></a>length 长度</h3><p>如下图：</p>
+<p><img data-fancybox="gallery" src="/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(2).png" alt="艹图(2)" data-caption="艹图(2)" loading="lazy">  </p>
+<blockquote>
+<p>大部分协议中都有这个字段,功能是划分界限<br>(指 划分出 哪一块是头部，哪一块是数据)  </p>
+</blockquote>
+<p>上图中标明了IP协议的头部长度(默认是20字节，但是最长可以是60字节)</p>
+<p>总长减去协议IP头部长度，即是数据长度</p>
+<p>作用:</p>
+<blockquote>
+<p>收到数据包后，联网设备的网卡模块会对数据包进行拆分，修改IP头部信息并且重新封装等操作<br>如果没有明确的拆分界限，在操作时可能会越界，越界很有可能损坏包内数据<br>假如长度字段标识错误或未标识，网卡进行拆分时，可能吧数据部分划分到IP协议头部中，这样会导致数据(data部分)不完整，<br>接收方最终会收到一个损坏的数据包  </p>
+</blockquote>
+<h3 id="TTL-生存时间"><a href="#TTL-生存时间" class="headerlink" title="TTL 生存时间"></a>TTL 生存时间</h3><p>TTL -&gt;  Time to live</p>
+<p>生存时间，用于标明IP数据包的剩余的存活时间。<br>这个字段在发送方发送数据包的时候就已经设置好了。不同 操作系统/终端 的初始TTL是不同的，TTL值占用8个bit位，最大值是<br>255(1111 1111)。  </p>
+<blockquote>
+<p>IP数据包每经过一个路由器或是三层设备，TTL就会被减去1，<br>当TTL=0时，数据包会被认为过期，从而遭到丢弃，<br>此时，路由器会向源发送者返回一个”TTL Exceed”的ICMP报错包。</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(3).png" alt="艹图(3)" data-caption="艹图(3)" loading="lazy"></p>
+<p>如果上图中的数据包从发送者到服务端超过了64跳，那么数据包会被丢弃，无法到达目的地，并且向发送者返回一个”TTL Exceed”</p>
+<p>TTL值除了标识IP数据包的生存值之外，还有一个很重要的功能 ———— $防止数据包环路$,简称$防环$。</p>
+<p>很多时候，由于网络拓扑结构的复杂性和工程师的疏忽，会出现一些有bug的网络环境，例如</p>
+<p><img data-fancybox="gallery" src="/2021/08/09/IP%E5%8D%8F%E8%AE%AE/%E8%8D%89%E5%9B%BE(4).png" alt="艹图(4)" data-caption="艹图(4)" loading="lazy"></p>
+<p>上面是一个经典的 环路拓扑 ，当数据包被发送到互联网中时，由于网络设备间存在环路(Loop)，数据包会一直在网络间<br>循环，而不是被发送到服务端</p>
+<p>如果没有TTL，这个数据包一直存在于链路中，这样不仅占用网络带宽，还会浪费处理器资源，大量的无用数据包充斥网络会影响正常通信</p>
+<p>$当IP数据包被放入TTL值后，即使网络拓扑中存在环路设计，当数据包被转发到TTL为0时，数据包也会被丢弃，避免影响正常通信$</p>
+<p>(TTL是一种被动解决环路的做法，要想从根源上解决环路还得从网络设计和协议设计上入手)</p>
+<h3 id="DSCP-差分服务代码点"><a href="#DSCP-差分服务代码点" class="headerlink" title="DSCP 差分服务代码点"></a>DSCP 差分服务代码点</h3><p>DECP(Differentiated Services Code Point)即差分服务代码点，用于为不同的IP数据包定义不同的服务质量，是QoS分类标准的技术实现。</p>
+<p>DECP占用6个bit，值的范围为 0~63  </p>
+<p>应用场景：在企业网中，网络运维人员可以为核心数据流采用高优先级的DSCP值，为其他普通的例如BT下载流量采用最普通的优先级。在运营商网络里，可以根据客户购买的不同专线服务，采用不同的DSCP值。</p>
+<p>DECP的值越高，转发的优先级就越高。</p>
+<h3 id="checksum-校验和"><a href="#checksum-校验和" class="headerlink" title="checksum 校验和"></a>checksum 校验和</h3><p>checksum校验字段和长度字段类似，很多协议都含有这一字段，用于数据完整性校验。</p>
+<p>server端会在接收到数据包后拆开IP头部，使用 校验算法 对数据包进行校验计算<br>校验结果正确则接受并处理，反之则丢弃  </p>
+<p>但是不同协议的校验方法未必相同，IP协议的checksum值只校验IP头部，不包括数据部分，而TCP和UDP校验则包括数据部分</p>
+<h3 id="Protocol-协议"><a href="#Protocol-协议" class="headerlink" title="Protocol 协议"></a>Protocol 协议</h3><p>无论是IT协议的Protocol字段，还是Ethernet以太网协议里面的Type字段，又或者是TCP/UDP协议里面的Port字段，这些字段的功能都是<br>$标识上层协议或应用$ ，例如，<br>ICMP协议号为1，TCP协议号为6， UDP协议号为17。</p>
+<p>不同协议对应的解析数据包的方式是不同的，就像你不能够使用打开mp4格式的方式去正常打开7z文件，所以要通过协议号，来获得解析数据包的方法</p>
+<p>所以，协议号（Protocol）、端口号（Port）、类型值（Type）这些的功能都是：<br>标记上层协议/应用，告诉接收方，用对应的协议/应用来打开这个数据，功能相当于电脑文件的后缀名，告诉电脑用哪些应用程序来打开对应的文件。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ol>
+<li>每个接入公网的设备都具有一个不同(虽然有蛮多例外)IP地址  </li>
+<li>通信数据包中会被嵌入IP源目地址，IP地址的唯一性，保证了正常的通信  </li>
+<li>IP协议除了寻址，还有防止数据包环路，流量控制，验证数据包完整性，实现数据包分片和组装的功能  </li>
+</ol>
+<p>以上(参考了好大一部分捏)</p>
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/08/09/IP%E5%8D%8F%E8%AE%AE/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;08&#x2F;09&#x2F;IP%E5%8D%8F%E8%AE%AE&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;08&#x2F;09&#x2F;IP%E5%8D%8F%E8%AE%AE&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/TCP-IP/" rel="tag">TCP/IP</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-4-IP%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.</span> <span class="toc-text">计算机网络学习笔记(4) IP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IP%E5%8D%8F%E8%AE%AE%E5%A4%B4%E9%83%A8"><span class="toc-number">1.3.</span> <span class="toc-text">IP协议头部</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#length-%E9%95%BF%E5%BA%A6"><span class="toc-number">1.3.1.</span> <span class="toc-text">length 长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TTL-%E7%94%9F%E5%AD%98%E6%97%B6%E9%97%B4"><span class="toc-number">1.3.2.</span> <span class="toc-text">TTL 生存时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DSCP-%E5%B7%AE%E5%88%86%E6%9C%8D%E5%8A%A1%E4%BB%A3%E7%A0%81%E7%82%B9"><span class="toc-number">1.3.3.</span> <span class="toc-text">DSCP 差分服务代码点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#checksum-%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="toc-number">1.3.4.</span> <span class="toc-text">checksum 校验和</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Protocol-%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.3.5.</span> <span class="toc-text">Protocol 协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.4.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033700994"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

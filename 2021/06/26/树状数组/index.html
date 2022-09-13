@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>树状数组 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="奇怪的数据结构增加啦 奇怪的知识 *&#x3D; 3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树状数组">
+<meta property="og:url" content="http://pigeon.asia/2021/06/26/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="奇怪的数据结构增加啦 奇怪的知识 *&#x3D; 3">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://pigeon.asia/2021/06/26/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/demo_1.png">
+<meta property="article:published_time" content="2021-06-26T09:23:30.000Z">
+<meta property="article:modified_time" content="2021-10-19T13:45:44.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pigeon.asia/2021/06/26/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/demo_1.png">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033701046">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033701046">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033701046">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: NaN%;"> 
+              <img src="https://z3.ax1x.com/2021/06/26/RJCDbt.jpg" alt="树状数组" loading="lazy">
+              <h1>树状数组</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年06月26日</a>
+</div>
+      
+
+      <h1 id="奇怪的数据结构增加啦"><a href="#奇怪的数据结构增加啦" class="headerlink" title="奇怪的数据结构增加啦"></a>奇怪的数据结构增加啦</h1><blockquote>
+<p>奇怪的知识 *= 3</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+<blockquote>
+<p>有时间学后端框架和CURD<br><del>Flask 2.0更新居然没有完全向下兼容 我吐了</del><br>不如多学点奇怪的数据结构和算法!<br>话说这学期感觉有点荒废<br>不过还好下个学期课程都蛮有意思的<br>想好好学一学了~~~  </p>
+</blockquote>
+<p>… 跑题了，嗯…</p>
+<blockquote>
+<p>人家其实先学的线段树..<br>不过老是会写错..<br>结果同班的大佬居然建议我去看树状数组和基础<br>嗯♂..<br>还是一如既往的扎心..不过确实没错  </p>
+</blockquote>
+<p>那我们进入正题吧&gt;.&lt;</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>线段树和树状数组是老同志了<br>理论上说<br>线段树的操作比树状数组更多<br>基本能实现树状数组能实现的操作<br>但是树状数组不能实现所有线段树能实现的操作<br>不过树状数组真的很短啊..思路也简单 就十几二十行<br>线段树的话 emmm…</p>
+</blockquote>
+<p>总之</p>
+<ul>
+<li><p>线段树：</p>
+<ul>
+<li>区间修改</li>
+<li>区间查询(求和)</li>
+</ul>
+</li>
+<li><p>树状数组:</p>
+<ul>
+<li>单点修改(区间修改)</li>
+<li>区间查询(单点查询)</li>
+</ul>
+</li>
+</ul>
+<p><del>反正我目前还没看到树状数组能同时区间修改或者查询 基本上一个是单点 一个是区间</del><br><del>(也有可能是我太菜了,不过树状数组真的挺好用的)</del>  </p>
+<p>2021-07-15修改:</p>
+<p>现在学了三种写法</p>
+<ul>
+<li>区间修改 + 单点查询</li>
+<li>单点修改 + 区间查询</li>
+<li>区间修改 + 区间查询</li>
+</ul>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>想一下 如果..如果….<br>嗯嗯嗯…<br>给你一个元素序列<br>再给你一些操作  </p>
+<ul>
+<li>从元素序列中求出某一区间和</li>
+<li>更改序列中的某一个值</li>
+</ul>
+<p>看起来思路很简单？<br>如果普通数组执行单点更新操作 直接进行操作 时间复杂度是<code>O(1)</code><br>如果对普通数组执行区间求和操作 也是遍历这个区间 对元素进行累加操作 时间复杂度<code>O(n)</code><br>如果我们用前缀和的方法维护数组 区间求和的时间复杂度就降低到了<code>O(1)</code><br>但是单点修改就会影响后边所有的元素 时间复杂度是<code>O(n)</code><br>嗯..在这个算力爆表的年代 <code>O(n)</code>好像也不是不行<br><del>懂了 以后排序全用冒泡</del><br>但是 n稍微大一点很容易就RE了<br>这时候 就需要一个支持快速单点修改和区间求和的数据结构啦~<br>没错 正是我 – <del>线段树</del>  树状数组  </p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><blockquote>
+<p>树状数组 -&gt; Binary Index Tree(BIT) -&gt; 二进制下标树</p>
+</blockquote>
+<ul>
+<li>树状数组的思想和线段树类似:<ul>
+<li>用大的节点表示小节点的信息,查询的时候只需要查询大节点而不用查询更多的小节点  </li>
+<li>维护的时候从大节点向下进行维护</li>
+<li>理论上说 单点修改和区间查询的时间复杂度都是<code>O(log n)</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>程序最后跑多长时间 其实是由最慢的一环决定的 所以我们希望有一种折中的方法<br>无论是单点修改还是区间查询 它都能不那么慢的完成<br>所以树状数组上台啦！  </p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/06/26/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/demo_1.png" alt="树状数组" data-caption="树状数组" loading="lazy">  </p>
+<blockquote>
+<p><del>图是从知乎上找的 这么清楚不用我多说了把</del><br><code>差不多得了 😅</code>  </p>
+</blockquote>
+<p>上图中最下面一排代表含有真实元素的数组<br>c代表树状数组  </p>
+<p>从图上可以看出</p>
+<ul>
+<li>c(1)节点管理a(1)</li>
+<li>c(2)节点管理a(1),a(2) (即拥有a((1),a)2的和)  </li>
+<li>c(4)节点管理a(1),a(2),a(3),a(4)  </li>
+<li>c(6)节点管理a(5),a(6)</li>
+<li>c(8)节点管理a(1),a(2),a(3),a(4),a(5),a(6),a(7),a(8)  </li>
+<li>……  </li>
+</ul>
+<p>这样在查询的时候可以通过查询大节点来代替区间求和 从而降低时间复杂度<br>在单点修改的时候 找到管理该数组下标的最小节点 进行累加 并且更新父节点即可  </p>
+<p>那么 问题来啦~<br>你怎么找到c(n)节点管的是哪a个数呢？  具体的值是怎么算出来的捏<br>这时候 奇怪的函数 <code>lowbit()</code>上线啦！  </p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;   </span><br><span class="line"><span class="comment">/* 从x的二进制表示提取出最后一位1 这个1和它所在的位数(即1和后面的0组成的二进制数)</span></span><br><span class="line"><span class="comment">代表的十进制数 */</span></span><br></pre></td></tr></table></figure>
+<p>树状数组巧妙的使用了二进制 核心就在<code>lowbit()</code>这么说好像有点<del>非常</del>抽象<br>奈何我自己也不怎么会证明 蒟蒻我只能看着dalao的博客和lowbit函数的规律自己猜测</p>
+<blockquote>
+<p>比如十进制数8 二进制下为<code>0000 1000</code><br>那么它最后一位1和后面的零组成的十进制数为8 它管理8个数a1 ~a 8<br>再比如十进制数6 二进制下为<code>0000 0110</code><br>那么它最后一位1和后面的零组成的十进制数为2 它管理2个数a5 ~ a6</p>
+</blockquote>
+<blockquote>
+<p>那么 x&amp;-x是怎么来的？<br>举个栗子：  </p>
+<blockquote>
+<p>6 = <code>0000 0110</code><br>-6 = <code>1111 1010</code><br>6 &amp; -6 = <code>0000 0010</code> = 2  </p>
+</blockquote>
+</blockquote>
+<p>通过对一个数x使用<code>lowbit(x)</code> 即可得出树状数组中以它为下标的元素管理的值<br>即 c(n) 管理 [a(n-lowbit(n)+1) ~ a(n)]<br>其实 我们求和的过程 就是不断重复这个过程 去掉二进制数最右边的一个1的过程，比如我们要求前7项和:</p>
+<ol>
+<li><code>0000 0111</code> -&gt; <code>0000 0110</code> + <code>0000 0001</code>  这时候求前六项和 + c(7)  </li>
+<li><code>0000 0110</code> -&gt; <code>0000 0100</code> + <code>0000 0010</code>  这时候求前4项和  + c(6) <code>c(6)包括a(5),a(6))</code> + c(7)  <code>c(7)只包括a(7)</code>  </li>
+<li><code>0000 0100</code> -&gt; <code>0000 0100</code> 这时候就是 c(4) + c(6) + c(7)</li>
+</ol>
+<p>可以结合上图理解一下<br><code>千万不要问怎么求[x,y]的和...我是不会告诉你要用前y项的和-前x-1项的和的</code><br>这样子就比较清楚了(大概？)</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>看了看自己之前的文笔…烂得离谱….<br>写这种东西 要是自己都看不懂 那还有什么意义啊?  </p>
+<p>设有一个数组 <em>int arr[]</em>,其共有<em>n</em>个元素,以该数组为基础建立的树状数组为<em>int tree[]</em>  </p>
+<h4 id="单点修改-区间查询"><a href="#单点修改-区间查询" class="headerlink" title="单点修改 + 区间查询"></a>单点修改 + 区间查询</h4><blockquote>
+<ul>
+<li><p>单点修改:<br>直接修改对应数组下标的值<br>接着利用*lowbit()*函数获取父节点下标 更新对应值</p>
+</li>
+<li><p>区间查询</p>
+</li>
+</ul>
+<p> 对于区间[x,y]的查询 有:  </p>
+</blockquote>
+<p>$$ sum(x,y) = \sum_{i=x}^y arr[i] $$</p>
+<blockquote>
+<p>由树状数组定义可知 树状数组从<em>1</em>到<em>n</em>的元素之和为:<br>$$ sum(1,n) = \sum_{i=1}^n arr[i] $$<br>易得<br>$$ sum(x,y) = sum(1,y) - sum(1,x-1)  =  \sum_{i=1}^y arr[i] - \sum_{i=1}^{x-1} arr[i] $$</p>
+</blockquote>
+<h4 id="单点查询-区间修改"><a href="#单点查询-区间修改" class="headerlink" title="单点查询 + 区间修改"></a>单点查询 + 区间修改</h4><p>设有一个数组 <em>int arr[]</em>,其共有<em>n</em>个元素,以该数组的<em>差分数组int b[]<em>为基础建立的树状数组为</em>int tree[]</em><br>即:</p>
+<ul>
+<li>$ b[1] = arr[1] $</li>
+<li>$ b[n] = arr[n] - arr[n-1] $</li>
+</ul>
+<blockquote>
+<ul>
+<li>单点查询:<br>对于第<em>n</em>个值的查询 有:  </li>
+</ul>
+<p> 由树状数组定义可知 树状数组从<em>1</em>到<em>n</em>的元素之和为:<br>$$ sum(1,n) = \sum_{i=1}^n b[i] = \sum_{i=1}^n arr[i]-arr[i-1] = arr[n] - arr[n-1] + arr[n-1] - ….. + arr[1] - arr[1] = arr[n] $$</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>区间修改<br>由上述单点查询公式可知,当区间进行修改时,除边界外<br>$$ b[n] = (arr[n]+value) - (arr[n-1]+value) = arr[n]-arr[n-1] $$</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>所以 只要修改两个边界的值即可,即</p>
+</blockquote>
+<p>$$ b[1]   +=  value $$<br>$$ b[n+1] -=  value $$</p>
+<p>对于树状数组而言就是进行单点修改(树状数组以b数组为基准建立)</p>
+<h4 id="区间查询-区间修改"><a href="#区间查询-区间修改" class="headerlink" title="区间查询 + 区间修改"></a>区间查询 + 区间修改</h4><p>今天才发现居然还有这种操作！这不比线段树好<del>用</del>写！</p>
+<blockquote>
+<p>建立在 <em>区间修改+单点查询</em> 的 差分树状数组上</p>
+</blockquote>
+<p>数组的前 <em>N</em> 项和记为 <em>sum(N)</em> 有  </p>
+<p>$$ sum(N) = \sum_{i=1}^N arr[i] = arr[1] + arr[2] + … + arr[n-1] + arr[n] $$</p>
+<p>由第二种写法可知 在差分树状数组下 有  </p>
+<p>$$ arr[t] = \sum_{i=1}^t b[i] = arr[t] - arr[t-1] + arr[t-1] + … +  arr[1] - arr[1]  $$</p>
+<p>所以 前N项和为</p>
+<p>$$ sum(N) = \sum_{i=1}^N \sum_{j=1}^i b[j] $$</p>
+<p>仔细观察 上述式子 有  </p>
+<p>$$ \sum_{i=1}^N \sum_{j=1}^i b[j] = b[1] * N + b[2] * (N-1) + b[3] * (N-2) + … + b[N] * (1) = \sum_{i=1}^N b[i]*(N-i+1) $$</p>
+<p>所以  </p>
+<p>$$ sum(N) = \sum_{i=1}^N b[i]*(N-i+1) = \n (N+1)*\sum_{i=1}^N b[i] -  \sum_{i=1}^N b[i]*i $$ </p>
+<p>综上 若是要维护一个同时支持区间修改和区间查询的树状数组</p>
+<p>只需要维护两个树状数组 一个以 <em>b[i]</em> 为基础数组建立 另一个以 *b[i]<em>i</em> 为基础数组建立</p>
+<ul>
+<li>区间查询<ul>
+<li>类似于第二种方法建立的差分树状数组的查询方式 与*lowbit()*有关的我就不赘述了</li>
+</ul>
+</li>
+<li>区间修改<ul>
+<li> 对于第一个以 <em>b[i]</em> 为基础的树状数组 修改两个端点的值即可</li>
+<li> 对于第二个树状数组的修改也类似 只需要令<br>$$  b[leftBound]    += changeValue $$<br>$$  b[rightBound+1] -= changeValue $$</li>
+</ul>
+</li>
+</ul>
+<p>以上  </p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
+<li><p>初始化<br>我们定义一个数组，用来作为树状数组</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> n; </span><br><span class="line"><span class="comment">/* n是数组的元素个数 按1~n */</span></span><br><span class="line"><span class="keyword">int</span> arr[n];</span><br><span class="line"><span class="keyword">int</span> tree[n];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; ++i)&#123;</span><br><span class="line">      tree[i] += arr[i];</span><br><span class="line">      <span class="keyword">int</span> j = i + <span class="built_in">lowbit</span>(i);</span><br><span class="line">      <span class="keyword">if</span>(j&lt;=n)&#123;</span><br><span class="line">          tree[j] += tree[i];</span><br><span class="line">          <span class="comment">/* 向父父节点提交自己的值 */</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>区间求和<br>  按照上面的思路 我们就可以写出  </p>
+  <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_sum</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(index&gt;=<span class="number">1</span>)&#123;</span><br><span class="line">        ans += tree[index];</span><br><span class="line">        index -= <span class="built_in">lowbit</span>(index);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>单点修改<br>这里的思路和建树状数组的时候有点类似 就是从小节点向上更新  </p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index,<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(index&lt;=n)&#123;</span><br><span class="line">        tree[index] += value;</span><br><span class="line">        index += <span class="built_in">lowbit</span>(index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>以上</p>
+<p>事实上 树状数组除了单点修改和区间求和<br>还能通过差分的方式 实现<code>单点取值</code>和<code>区间修改</code><br>对于a数组的元素<br>假设我们用差分的方式给b数组赋值<br>那么 有:</p>
+<ul>
+<li>b[1] = a[1]</li>
+<li>b[i] = a[i] - a[i-1]  </li>
+</ul>
+<p>那么 易知</p>
+<p><code>a[i] = b[1] + b[2] + .... +b[i]</code>  </p>
+<p>如果我们以树状数组的方式来存b数组 那么tree[i] 的含义就从区间和变成了a[i]的值<br>如果我们要查询a[i]的值 查询树状数组元素[1,i]的和即可</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_value</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(index&lt;=n)&#123;</span><br><span class="line">        ans += tree[index];</span><br><span class="line">        index += <span class="built_in">lowbit</span>(index);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若是要对区间元素增加一个值或减去一个值<br>因为b是a的差分 所以<code>b[i]=(a[i]+k)-(a[i-1]+k) =b[i]</code><br>真正有影响的只有改动区间的第一个元素和最后一个元素的下一个元素<br>所以 我们在处理的时候 只需要:<br>假设区间是<code>[x,y]</code>  则<br>改变<code>b[x]</code>和<code>b[y+1]</code>的值即可</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index,<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(index&lt;=n)&#123;</span><br><span class="line">        tree[index] += value;</span><br><span class="line">        index += <span class="built_in">lowbit</span>(index);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">range_add</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right,<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">    <span class="built_in">add</span>(left,value);</span><br><span class="line">    <span class="built_in">add</span>(right+<span class="number">1</span>,-value);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上<br>不过下面有两道板子题啦~</p>
+<blockquote>
+<p>突然发现java更好描述数据结构…<br>这就是面向对象吗 爱了爱了<br><del>没有全局变量一点也不好用吧喂！</del></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> Graph;</span><br><span class="line"><span class="comment">/** 树状数组 **/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryIndexedTree</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] arr       = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>[] treeArray = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span>   arrayBound= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BinaryIndexedTree</span><span class="params">(<span class="keyword">int</span>[] arr,<span class="keyword">int</span> arrayBound)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.arr = arr;</span><br><span class="line">        <span class="keyword">this</span>.treeArray = <span class="keyword">new</span> <span class="keyword">int</span>[arrayBound+<span class="number">1</span>];</span><br><span class="line">        <span class="comment">/* 从1到arrayBound */</span></span><br><span class="line">        <span class="comment">/* arr可能不是正好卡到元素数量上限 所以不如手动指定数组边界 */</span></span><br><span class="line">        <span class="keyword">this</span>.arrayBound = arrayBound;</span><br><span class="line">        <span class="keyword">this</span>.init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=arrayBound; ++i)&#123;</span><br><span class="line">            treeArray[i] += arr[i];</span><br><span class="line">            <span class="keyword">int</span> temp = i + lowBit(i);</span><br><span class="line">            <span class="keyword">if</span> (temp&lt;=arrayBound)&#123;</span><br><span class="line">                treeArray[temp] += treeArray[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index,<span class="keyword">int</span> addValue)</span></span>&#123;</span><br><span class="line">        <span class="keyword">while</span>(index &lt;= <span class="keyword">this</span>.arrayBound)&#123;</span><br><span class="line">            <span class="keyword">this</span>.treeArray[index] += addValue;</span><br><span class="line">            index += lowBit(index);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (index &gt;= <span class="number">1</span>)&#123;</span><br><span class="line">            ans += treeArray[index];</span><br><span class="line">            index -= lowBit(index);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">lowBit</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> x &amp; -x;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="板题"><a href="#板题" class="headerlink" title="板题"></a>板题</h2><p>快乐板题~</p>
+<p>先是一号板题</p>
+<h3 id="洛谷-P3374-模板-树状数组1"><a href="#洛谷-P3374-模板-树状数组1" class="headerlink" title="洛谷 P3374 [模板]树状数组1"></a>洛谷 P3374 [模板]树状数组1</h3><h5 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h5><blockquote>
+<p>如题，已知一个数列，你需要进行下面两种操作：<br>将某一个数加上 x<br>求出某区间每一个数的和  </p>
+</blockquote>
+<h5 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h5><blockquote>
+<p>第一行包含两个正整数 n,m，分别表示该数列数字的个数和操作的总个数。<br>第二行包含 n 个用空格分隔的整数，其中第 i 个数字表示数列第 i 项的初始值。<br>接下来 m 行每行包含 3 个整数，表示一个操作，具体如下：  </p>
+</blockquote>
+<blockquote>
+<ul>
+<li><code>1 x k</code> 含义：将第 x 个数加上 k  </li>
+<li><code>2 x y</code> 含义：输出区间 [x,y] 内每个数的和  </li>
+</ul>
+</blockquote>
+<h5 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h5><blockquote>
+<p>输出包含若干行整数，即为所有操作 2 的结果。<br>输入输出样例  </p>
+</blockquote>
+<ul>
+<li>输入  </li>
+</ul>
+<blockquote>
+<p>5 5<br>1 5 4 2 3<br>1 1 3<br>2 2 5<br>1 3 -1<br>1 4 2<br>2 1 4  </p>
+</blockquote>
+<ul>
+<li>输出  </li>
+</ul>
+<blockquote>
+<p>14<br>16  </p>
+</blockquote>
+<h4 id="AC代码"><a href="#AC代码" class="headerlink" title="AC代码"></a>AC代码</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> arr[<span class="number">500007</span>];</span><br><span class="line"><span class="keyword">int</span> tree[<span class="number">500007</span>];</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">get_sum</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(index&gt;=<span class="number">1</span>)&#123;</span><br><span class="line">		ans += tree[index];</span><br><span class="line">		index -= <span class="built_in">lowbit</span>(index);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index,<span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(index&lt;=n)&#123;</span><br><span class="line">		tree[index] += value;</span><br><span class="line">		index += <span class="built_in">lowbit</span>(index);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin.<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123;</span><br><span class="line">		cin &gt;&gt; arr[i];</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123;</span><br><span class="line">		tree[i] += arr[i];</span><br><span class="line">		<span class="keyword">int</span> temp = i + <span class="built_in">lowbit</span>(i);</span><br><span class="line">		<span class="keyword">if</span>(temp&lt;=n)&#123;</span><br><span class="line">			tree[temp] += tree[i]; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(m--)&#123;</span><br><span class="line">		<span class="keyword">int</span> oper,x,y;</span><br><span class="line">		cin &gt;&gt; oper &gt;&gt; x &gt;&gt; y;</span><br><span class="line">		<span class="keyword">if</span>(oper==<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="built_in">add</span>(x,y);</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			cout &lt;&lt; <span class="built_in">get_sum</span>(y) - <span class="built_in">get_sum</span>(x<span class="number">-1</span>) &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>再然后是二号板题  </p>
+<h3 id="P3368-模板-树状数组2"><a href="#P3368-模板-树状数组2" class="headerlink" title="P3368 [模板]树状数组2"></a>P3368 [模板]树状数组2</h3><h5 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h5><blockquote>
+<p>如题，已知一个数列，你需要进行下面两种操作：<br>将某区间每一个数数加上 x<br>求出某一个数的值。  </p>
+</blockquote>
+<h5 id="输入格式-1"><a href="#输入格式-1" class="headerlink" title="输入格式"></a>输入格式</h5><blockquote>
+<p>第一行包含两个正整数 n,m，分别表示该数列数字的个数和操作的总个数。<br>第二行包含 n 个用空格分隔的整数，其中第 i 个数字表示数列第 i 项的初始值。<br>接下来 m 行每行包含 4 个整数，表示一个操作，具体如下：  </p>
+</blockquote>
+<blockquote>
+<ul>
+<li>格式：<code>1 x y k</code> 含义：将区间 <code>[x,y]</code> 内每个数加上 k  </li>
+<li>格式：<code>2 x</code> 含义：输出第 x 个数的值  </li>
+</ul>
+</blockquote>
+<h5 id="输出格式-1"><a href="#输出格式-1" class="headerlink" title="输出格式"></a>输出格式</h5><blockquote>
+<p>输出包含若干行整数，即为所有操作 2 的结果。<br>输入输出样例  </p>
+</blockquote>
+<ul>
+<li>输入  </li>
+</ul>
+<blockquote>
+<p>5 5<br>1 5 4 2 3<br>1 2 4 2<br>2 3<br>1 1 5 -1<br>1 3 5 7<br>2 4</p>
+</blockquote>
+<ul>
+<li>输出  </li>
+</ul>
+<blockquote>
+<p>6<br>10 </p>
+</blockquote>
+<h4 id="AC代码-1"><a href="#AC代码-1" class="headerlink" title="AC代码"></a>AC代码</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">lowbit</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> x &amp; -x;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> arr[<span class="number">500007</span>];</span><br><span class="line"><span class="keyword">int</span> tree[<span class="number">500007</span>];</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> index, <span class="keyword">int</span> value)</span></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(index&lt;=n)&#123;</span><br><span class="line">		tree[index] += value;</span><br><span class="line">		index += <span class="built_in">lowbit</span>(index);</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;</span><br><span class="line">		</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">get_sum</span><span class="params">(<span class="keyword">int</span> index)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(index&gt;=<span class="number">1</span>)&#123;</span><br><span class="line">		ans += tree[index];</span><br><span class="line">		index -= <span class="built_in">lowbit</span>(index);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123;</span><br><span class="line">		tree[i] += arr[i];</span><br><span class="line">		<span class="keyword">int</span> temp = i + <span class="built_in">lowbit</span>(i);</span><br><span class="line">		<span class="keyword">if</span>(temp&lt;=n)&#123;</span><br><span class="line">			<span class="comment">/* 向上修改 */</span></span><br><span class="line">			tree[temp] += tree[i];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin.<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> last = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123;</span><br><span class="line">		<span class="keyword">int</span> temp;</span><br><span class="line">		cin &gt;&gt; temp;</span><br><span class="line">		arr[i] = temp -last;</span><br><span class="line">		last = temp;</span><br><span class="line">		<span class="comment">/* 差分 */</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">build</span>();</span><br><span class="line">	<span class="keyword">while</span>(m--)&#123;</span><br><span class="line">		<span class="keyword">int</span> oper;</span><br><span class="line">		cin &gt;&gt; oper;</span><br><span class="line">		<span class="keyword">if</span>(oper==<span class="number">1</span>)&#123;</span><br><span class="line">			<span class="keyword">int</span> x,y,k;</span><br><span class="line">			cin &gt;&gt; x &gt;&gt; y &gt;&gt; k;</span><br><span class="line">			<span class="built_in">add</span>(x,k);</span><br><span class="line">			<span class="built_in">add</span>(y+<span class="number">1</span>,-k);</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">int</span> x;</span><br><span class="line">			cin &gt;&gt; x;</span><br><span class="line">			cout &lt;&lt; <span class="built_in">get_sum</span>(x) &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/06/26/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;06&#x2F;26&#x2F;%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;06&#x2F;26&#x2F;%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%A0%91/" rel="tag">树</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%87%E6%80%AA%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%A2%9E%E5%8A%A0%E5%95%A6"><span class="toc-number">1.</span> <span class="toc-text">奇怪的数据结构增加啦</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E5%85%A5"><span class="toc-number">1.2.</span> <span class="toc-text">引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.3.1.</span> <span class="toc-text">小结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E4%BF%AE%E6%94%B9-%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">单点修改 + 区间查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E7%82%B9%E6%9F%A5%E8%AF%A2-%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">单点查询 + 区间修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2-%E5%8C%BA%E9%97%B4%E4%BF%AE%E6%94%B9"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">区间查询 + 区间修改</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%BF%E9%A2%98"><span class="toc-number">1.5.</span> <span class="toc-text">板题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%9B%E8%B0%B7-P3374-%E6%A8%A1%E6%9D%BF-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%841"><span class="toc-number">1.5.1.</span> <span class="toc-text">洛谷 P3374 [模板]树状数组1</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.5.1.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.5.1.0.2.</span> <span class="toc-text">输入格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.5.1.0.3.</span> <span class="toc-text">输出格式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AC%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">AC代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#P3368-%E6%A8%A1%E6%9D%BF-%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%842"><span class="toc-number">1.5.2.</span> <span class="toc-text">P3368 [模板]树状数组2</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="toc-number">1.5.2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F-1"><span class="toc-number">1.5.2.0.2.</span> <span class="toc-text">输入格式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F-1"><span class="toc-number">1.5.2.0.3.</span> <span class="toc-text">输出格式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AC%E4%BB%A3%E7%A0%81-1"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">AC代码</span></a></li></ol></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033701072"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

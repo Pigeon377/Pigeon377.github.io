@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>广度优先搜索 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="广度优先搜索 广度优先搜索是一种盲目搜寻法，不考虑结果的可能位置，彻底的搜索整张图，直到所有节点都被搜寻过或是找到结果为止。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="广度优先搜索">
+<meta property="og:url" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="广度优先搜索 广度优先搜索是一种盲目搜寻法，不考虑结果的可能位置，彻底的搜索整张图，直到所有节点都被搜寻过或是找到结果为止。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS01.webp">
+<meta property="og:image" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS02.webp">
+<meta property="og:image" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS03.webp">
+<meta property="og:image" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS04.webp">
+<meta property="og:image" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS05.webp">
+<meta property="article:published_time" content="2021-03-04T13:50:25.000Z">
+<meta property="article:modified_time" content="2021-07-15T01:27:16.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="图论">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS01.webp">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033701089">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033701089">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033701089">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 50%;"> 
+              <img src="https://i.loli.net/2021/04/10/Do2tbeXIMuswlOH.png" alt="广度优先搜索" loading="lazy">
+              <h1>广度优先搜索</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年03月04日</a>
+</div>
+      
+
+      <h1 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h1><blockquote>
+<p>广度优先搜索是一种盲目搜寻法，不考虑结果的可能位置，彻底的搜索整张图，<br>直到所有节点都被搜寻过或是找到结果为止。</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+<blockquote>
+<p>这里举个栗子</p>
+</blockquote>
+<blockquote>
+<p>先给出一个所有节点都未被访问的连通图</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS01.webp" alt="BFS01" data-caption="BFS01" loading="lazy"></p>
+<blockquote>
+<p>然后搜索起点（搜索中标为灰色）</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS02.webp" alt="BFS01" data-caption="BFS01" loading="lazy"></p>
+<blockquote>
+<p>起点搜索后标黑，接着搜索其所有子节点</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS03.webp" alt="BFS01" data-caption="BFS01" loading="lazy"></p>
+<blockquote>
+<p>将起点的所有子节点看做新的起点，重复上述操作</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS04.webp" alt="BFS01" data-caption="BFS01" loading="lazy"></p>
+<blockquote>
+<p>终点被标记 结束搜索 最早标记终点的那条路径就是最短路径</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/BFS05.webp" alt="BFS01" data-caption="BFS01" loading="lazy"></p>
+<h2 id="算法实现思路"><a href="#算法实现思路" class="headerlink" title="算法实现思路"></a>算法实现思路</h2><blockquote>
+<p>通过队列实现BFS，先将起点压入队尾，将队头元素的所有子节点<br>也压入队尾，如此往复，直至队列为空或是找到答案<br>(比深搜简单多了)</p>
+</blockquote>
+<h2 id="例题-1"><a href="#例题-1" class="headerlink" title="例题 1"></a>例题 1</h2><blockquote>
+<p>洛谷 P1451_求细胞数量</p>
+</blockquote>
+<p>题面如下</p>
+<blockquote>
+<p>题目描述</p>
+<p>一矩形阵列由数字 0 到 9 组成，数字 1 到 9 代表细胞，<br>细胞的定义为沿细胞数字上下左右若还是细胞数字则为同一细胞，求给定矩形阵列的细胞个数。</p>
+<p>输入格式</p>
+<p>第一行两个整数代表矩阵大小 n 和 m。</p>
+<p>接下来 n 行，每行一个长度为 m 的只含字符 0 到 9 的字符串，<br>代表这个 n×m 的矩阵。</p>
+<p>输出格式</p>
+<p>一行一个整数代表细胞个数。</p>
+</blockquote>
+<p>样例如下</p>
+<blockquote>
+<p>输入</p>
+<p>4 10<br>0234500067<br>1034560500<br>2045600671<br>0000000089  </p>
+</blockquote>
+<blockquote>
+<p>输出<br>4</p>
+</blockquote>
+<blockquote>
+<p>数据规模与约定<br>对于 100% 的数据，保证 1≤n,m≤100。</p>
+</blockquote>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><blockquote>
+<p>遍历整个数组 当当前位置为细胞时 且未被标记过时（避免重复搜索使结果变大）<br>执行BFS 对连通的区域进行搜索 并使用数组标记 同时 令计数的cnt自增<br>枚举完整个数组后就停止</p>
+</blockquote>
+<h3 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h3><p>冲着练习BFS去的..这题标准的堪称BFS模板题</p>
+<h4 id="通过数组进行模拟"><a href="#通过数组进行模拟" class="headerlink" title="通过数组进行模拟"></a>通过数组进行模拟</h4><blockquote>
+<p>没什么好说的..开一个数组对整个阵列进行模拟,这里我采用bool<br>类型的数组来省空间, 用x，y两个数组来模拟四个方向<br>再开两个队列来支持BFS</p>
+</blockquote>
+<blockquote>
+<p>代码头<br>(不建议万能头 因为编译会很慢 而且可移植性也很差（不过这个不重要）)</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> arr[<span class="number">107</span>][<span class="number">107</span>];</span><br><span class="line"><span class="keyword">bool</span> vis[<span class="number">107</span>][<span class="number">107</span>];</span><br><span class="line"><span class="keyword">int</span> xx[] = &#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> yy[] = &#123;<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;; </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; que_x,que_y;</span><br></pre></td></tr></table></figure>
+
+<h4 id="读入数据"><a href="#读入数据" class="headerlink" title="读入数据"></a>读入数据</h4><blockquote>
+<p>值得一提的是输入有点小问题 最开始我打算使用整数直接读入，<br>后来发现会出bug 整个数字串都被读进去了….<br>所以最后凭着多年靠快读卡时间的老底 采用了一种类似<br>快读的写法..用以实现单个字符读入</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">read</span><span class="params">()</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(ch&lt;<span class="string">&#x27;0&#x27;</span>||ch&gt;<span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">	ch = <span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">return</span> ch == <span class="string">&#x27;0&#x27;</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;++j)</span><br><span class="line">	&#123;</span><br><span class="line">		arr[i][j] = <span class="built_in">read</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>(AC之后才发现这方法真的蠢..不过因为被奇妙的换行搞出阴影了，就没去改)<br>可以使用格式化输入 后文会提及</p>
+</blockquote>
+<h4 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)&#123; <span class="comment">/* 原谅我这么多缩进*/</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;++j)&#123;</span><br><span class="line">			<span class="keyword">if</span>(arr[i][j] &amp;&amp; vis[i][j]==<span class="number">0</span> )</span><br><span class="line">			&#123;	<span class="comment">/* 没被搜索过 且该点是细胞 */</span></span><br><span class="line">				que_x.<span class="built_in">push</span>(i);   <span class="comment">/* 将该点的横纵坐标推进队列*/</span></span><br><span class="line">				que_y.<span class="built_in">push</span>(j);</span><br><span class="line">				++ cnt;         <span class="comment">/* 细胞个数+1 */</span></span><br><span class="line">				<span class="keyword">while</span>(!que_x.<span class="built_in">empty</span>())  <span class="comment">/* 当没有地方搜索时 队列只出不入 空队列即结束循环*/</span></span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">int</span> temp_x = que_x.<span class="built_in">front</span>();  <span class="comment">/* 提出队头横纵坐标 */</span></span><br><span class="line">					<span class="keyword">int</span> temp_y = que_y.<span class="built_in">front</span>();</span><br><span class="line">					que_x.<span class="built_in">pop</span>();                <span class="comment">/* 弹出队头 */</span></span><br><span class="line">					que_y.<span class="built_in">pop</span>();</span><br><span class="line">					<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">4</span>;++k)</span><br><span class="line">					&#123;           <span class="comment">/* 四个方向进行搜索 */</span></span><br><span class="line">						<span class="keyword">int</span> tempx = temp_x + xx[k];  </span><br><span class="line">						<span class="keyword">int</span> tempy = temp_y + yy[k];</span><br><span class="line">						<span class="keyword">if</span>(tempx&gt;=<span class="number">1</span>&amp;&amp;tempx&lt;=n&amp;&amp;tempy&gt;=<span class="number">1</span>&amp;&amp;tempy&lt;=m&amp;&amp;vis[tempx][tempy]==<span class="number">0</span>&amp;&amp;arr[tempx][tempy])</span><br><span class="line">						&#123;   <span class="comment">/* 坐标在方位内、未被搜索过并且是细胞 就压入队列 成为新的子节点 */</span></span><br><span class="line">							que_x.<span class="built_in">push</span>(tempx);</span><br><span class="line">							que_y.<span class="built_in">push</span>(tempy);</span><br><span class="line">							vis[tempx][tempy] = <span class="number">1</span>;  <span class="comment">/* 标记已经搜索 */</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;	</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;	</span><br></pre></td></tr></table></figure>
+<h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><blockquote>
+<p>怎么感觉这个也写出来好像很丢人？</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">cout &lt;&lt; cnt;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><blockquote>
+<p>代码如下</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> arr[<span class="number">107</span>][<span class="number">107</span>];</span><br><span class="line"><span class="keyword">bool</span> vis[<span class="number">107</span>][<span class="number">107</span>];</span><br><span class="line"><span class="keyword">int</span> xx[] = &#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> yy[] = &#123;<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;; </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; que_x,que_y;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">read</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> ch = <span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">while</span>(ch&lt;<span class="string">&#x27;0&#x27;</span>||ch&gt;<span class="string">&#x27;9&#x27;</span>)</span><br><span class="line">	ch = <span class="built_in">getchar</span>();</span><br><span class="line">	<span class="keyword">return</span> ch == <span class="string">&#x27;0&#x27;</span> ? <span class="number">0</span> : <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> n,m;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;++j)</span><br><span class="line">		&#123;</span><br><span class="line">			arr[i][j] = <span class="built_in">read</span>();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;++j)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(arr[i][j] &amp;&amp; vis[i][j]==<span class="number">0</span> )</span><br><span class="line">			&#123;	<span class="comment">/* 没被搜索过 且该点是细胞 */</span></span><br><span class="line">				que_x.<span class="built_in">push</span>(i);</span><br><span class="line">				que_y.<span class="built_in">push</span>(j);</span><br><span class="line">				++ cnt; </span><br><span class="line">				<span class="keyword">while</span>(!que_x.<span class="built_in">empty</span>())</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">int</span> temp_x = que_x.<span class="built_in">front</span>();</span><br><span class="line">					<span class="keyword">int</span> temp_y = que_y.<span class="built_in">front</span>();</span><br><span class="line">					que_x.<span class="built_in">pop</span>();</span><br><span class="line">					que_y.<span class="built_in">pop</span>();</span><br><span class="line">					<span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;<span class="number">4</span>;++k)</span><br><span class="line">					&#123;</span><br><span class="line">						<span class="keyword">int</span> tempx = temp_x + xx[k];</span><br><span class="line">						<span class="keyword">int</span> tempy = temp_y + yy[k];</span><br><span class="line">						<span class="keyword">if</span>(tempx&gt;=<span class="number">1</span>&amp;&amp;tempx&lt;=n&amp;&amp;tempy&gt;=<span class="number">1</span>&amp;&amp;tempy&lt;=m&amp;&amp;vis[tempx][tempy]==<span class="number">0</span>&amp;&amp;arr[tempx][tempy])</span><br><span class="line">						&#123;</span><br><span class="line">							que_x.<span class="built_in">push</span>(tempx);</span><br><span class="line">							que_y.<span class="built_in">push</span>(tempy);</span><br><span class="line">							vis[tempx][tempy] = <span class="number">1</span>;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;	</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; cnt;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="例题2"><a href="#例题2" class="headerlink" title="例题2"></a>例题2</h2><blockquote>
+<p>洛谷P2199 最后的迷宫</p>
+</blockquote>
+<p>题面如下</p>
+<blockquote>
+<p>题目背景<br>哈利•波特作为三强争霸赛的第四名选手，历尽艰险闯到了最后一关——迷宫。</p>
+<p>现在，迷宫里只剩下哈利和塞德里克了，哈利只有在塞德里克前面拿到奖杯，才能赢得比赛。哈利只要能看到奖杯，就可以用飞来咒拿到它，所以，现在的问题是哈利如何能尽早地看到奖杯。</p>
+<p>题目描述<br>哈利的视力非常好，他能从迷宫的一端沿直线看到迷宫的另一端（但他只能看八个方向——东北，东，东南，南，西南……），而且跑得非常快，跑一步（向上、下、左、右移动一格）<br>只需要1s。但迷宫是不透光的，而且，要烧掉迷宫的墙也不容易，所以哈利决定绕到一个能够看到奖杯的地方。现在，哈利希望你能帮他确定最短需要多长时间才能拿到奖杯。</p>
+<p>输入格式<br>第一行为2个数N，M表示迷宫的规模（N为高，M为宽）</p>
+<p>接下来是N*M的迷宫，O表示空地，X表示墙。</p>
+<p>最后是多对数据，分别是奖杯坐标及哈利的坐标（显然不可能在墙上），每对占一行，0为结束标志。</p>
+<p>输出格式<br>根据每对数据，计算哈利拿到奖杯的最短时间，每对一行。如果魔法部有意难为选手，用墙将奖杯包围了起来，输出”Poor Harry”。</p>
+<p>输入输出样例  </p>
+<p>输入   </p>
+<blockquote>
+<p>3 4<br>OXXO<br>XXOO<br>XOOO<br>3 2 2 4<br>3 3 1 1<br>0 0 0 0 </p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>输出    </p>
+<blockquote>
+<p>1<br>Poor Harry  </p>
+</blockquote>
+<p>说明/提示  </p>
+<p>对于30%的数据,有N*M&lt;=100</p>
+<p>对于60%的数据,有N*M&lt;=1600</p>
+<p>对于100%的数据,有N*m&lt;=16384</p>
+</blockquote>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><blockquote>
+<p>代码如下</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">bool</span> arr[<span class="number">1600</span>][<span class="number">1600</span>];</span><br><span class="line"><span class="keyword">int</span> xx[] = &#123;<span class="number">-1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> yy[] = &#123;<span class="number">0</span>,<span class="number">-1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> vis[<span class="number">1600</span>][<span class="number">1600</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">queue&lt;<span class="keyword">int</span>&gt; que_x,que_y,que_deep; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,m;</span><br><span class="line">	<span class="keyword">char</span> temp;</span><br><span class="line">	<span class="comment">/*输入迷宫*/</span></span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d %d&quot;</span>,&amp;n,&amp;m);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;++j)</span><br><span class="line">		&#123;  <span class="comment">/* O-&gt;True X -&gt; False*/</span></span><br><span class="line">			cin &gt;&gt; temp;</span><br><span class="line">			arr[i][j] = temp == <span class="string">&#x27;O&#x27;</span> ? <span class="number">1</span> : <span class="number">0</span>;	</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> end_x,end_y,x0,y0;</span><br><span class="line">		cin &gt;&gt; end_x &gt;&gt; end_y &gt;&gt; x0 &gt;&gt; y0 ;</span><br><span class="line">		<span class="comment">/*********/</span></span><br><span class="line">        <span class="keyword">if</span>(x0==<span class="number">0</span>&amp;&amp;end_x==x0&amp;&amp;x0==y0&amp;&amp;y0==end_y)   <span class="comment">/* 先标记八个方向 当搜索到被标记的点的时候 就停止 */</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		<span class="comment">/****判断*/</span></span><br><span class="line">        <span class="keyword">int</span> vis[<span class="number">1600</span>][<span class="number">1600</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> p=end_x;p&gt;=<span class="number">1</span>&amp;&amp;arr[p][end_y];--p)</span><br><span class="line">		vis[p][end_y] = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> p=end_x;p&lt;=n&amp;&amp;arr[p][end_y];++p)</span><br><span class="line">		vis[p][end_y] = <span class="number">7</span>;</span><br><span class="line">				<span class="comment">/*纵向*/</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> p=end_y;p&gt;=<span class="number">1</span>&amp;&amp;arr[end_x][p];--p)</span><br><span class="line">		vis[end_x][p] = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> p=end_y;p&lt;=m&amp;&amp;arr[end_x][p];++p)</span><br><span class="line">		vis[end_x][p] = <span class="number">7</span>;</span><br><span class="line">				<span class="comment">/*斜向*/</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> px=end_x,py=end_y;px&gt;=<span class="number">1</span>&amp;&amp;py&gt;=<span class="number">1</span>&amp;&amp;arr[px][py];--px,--py)</span><br><span class="line">		vis[px][py] = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> px=end_x,py=end_y;px&lt;=n&amp;&amp;py&lt;=m&amp;&amp;arr[px][py];++px,++py)</span><br><span class="line">		vis[px][py] = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> px=end_x,py=end_y;px&gt;=<span class="number">1</span>&amp;&amp;py&lt;=m&amp;&amp;arr[px][py];--px,++py)</span><br><span class="line">		vis[px][py] = <span class="number">7</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> px=end_x,py=end_y;px&lt;=n&amp;&amp;py&gt;=<span class="number">1</span>&amp;&amp;arr[px][py];++px,--py)</span><br><span class="line">		vis[px][py] = <span class="number">7</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(vis[x0][y0]==<span class="number">7</span>)</span><br><span class="line">        &#123;cout &lt;&lt; <span class="number">0</span> &lt;&lt;endl;<span class="keyword">goto</span> loop;&#125;</span><br><span class="line">		que_x.<span class="built_in">push</span>(x0);</span><br><span class="line">		que_y.<span class="built_in">push</span>(y0);</span><br><span class="line">        que_deep.<span class="built_in">push</span>(<span class="number">0</span>);</span><br><span class="line">        vis[x0][y0] = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(!que_x.<span class="built_in">empty</span>())</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> params=<span class="number">0</span>;params&lt;<span class="number">4</span>;++params)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">int</span> tempx = que_x.<span class="built_in">front</span>() + xx[params];</span><br><span class="line">                <span class="keyword">int</span> tempy = que_y.<span class="built_in">front</span>() + yy[params];</span><br><span class="line">				<span class="keyword">if</span>(<span class="number">1</span>&lt;=tempx&amp;&amp;tempx&lt;=n&amp;&amp;<span class="number">1</span>&lt;=tempy&amp;&amp;tempy&lt;=m&amp;&amp;vis[tempx][tempy]==<span class="number">0</span>&amp;&amp;arr[tempx][tempy])</span><br><span class="line">				&#123;</span><br><span class="line">					que_x.<span class="built_in">push</span>(tempx);</span><br><span class="line">					que_y.<span class="built_in">push</span>(tempy);</span><br><span class="line">					que_deep.<span class="built_in">push</span>(que_deep.<span class="built_in">front</span>()+<span class="number">1</span>);</span><br><span class="line">					vis[tempx][tempy] = <span class="number">1</span>;</span><br><span class="line">				&#125;</span><br><span class="line">                <span class="keyword">if</span>(vis[tempx][tempy]==<span class="number">7</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                   cout &lt;&lt; que_deep.<span class="built_in">front</span>() + <span class="number">1</span>&lt;&lt;endl;</span><br><span class="line">                   <span class="keyword">while</span>(!que_x.<span class="built_in">empty</span>())</span><br><span class="line">                   &#123;</span><br><span class="line">                        que_x.<span class="built_in">pop</span>();</span><br><span class="line">                        que_y.<span class="built_in">pop</span>();</span><br><span class="line">                        que_deep.<span class="built_in">pop</span>();</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">goto</span> loop;</span><br><span class="line">                &#125;</span><br><span class="line">			&#125;</span><br><span class="line">			que_x.<span class="built_in">pop</span>();</span><br><span class="line">			que_y.<span class="built_in">pop</span>();</span><br><span class="line">			que_deep.<span class="built_in">pop</span>();</span><br><span class="line">		&#125;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;Poor Harry&quot;</span>&lt;&lt;endl;</span><br><span class="line">		loop:<span class="keyword">continue</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><blockquote>
+<ol>
+<li>当遇到像题目这样有特殊读入需求的时候，尽量采用<code>scanf</code>格式读入字符，<br>像题目这样的输入，除去<code>getchar()</code>, 还可以使用<code>scanf(&quot;%1d&quot;,&amp;arr[i][j]);</code><br>即读入整数 但只读入一位数字</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>判断边界条件的时候一定要好好思考，因为条件很多，很容易有错漏，并且<br>很多BFS题目需要用数组来标记，条件的先后顺序也很重要，要是把数组判断放<br>在前面，很有可能越界访问，使程序崩溃，最好先判断边界，再判断数组条件</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>要注重实践，但也不要只实践而忽略了理论知识的学习。</li>
+</ol>
+</blockquote>
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/03/04/%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;03&#x2F;04&#x2F;%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;03&#x2F;04&#x2F;%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/algorithm/">algorithm</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E5%9B%BE%E8%AE%BA/" rel="tag">图论</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2"><span class="toc-number">1.</span> <span class="toc-text">广度优先搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.</span> <span class="toc-text">算法实现思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98-1"><span class="toc-number">1.2.</span> <span class="toc-text">例题 1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.1.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.2.</span> <span class="toc-text">编写代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8C%E6%A8%A1%E6%8B%9F"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">通过数组进行模拟</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%BB%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">读入数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BFS"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">BFS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA"><span class="toc-number">1.2.2.4.</span> <span class="toc-text">输出</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.3.</span> <span class="toc-text">完整代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E9%A2%982"><span class="toc-number">1.3.</span> <span class="toc-text">例题2</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">完整代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.3.2.</span> <span class="toc-text">小结</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033701094"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

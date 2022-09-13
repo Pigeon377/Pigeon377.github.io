@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>补码 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="人家就是要搞懂补码啦！如果有写的不对的恳请指出  好像不是很难  那你怎么学了这么久？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="补码">
+<meta property="og:url" content="http://pigeon.asia/2021/04/15/%E8%A1%A5%E7%A0%81/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="人家就是要搞懂补码啦！如果有写的不对的恳请指出  好像不是很难  那你怎么学了这么久？">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-15T00:54:22.000Z">
+<meta property="article:modified_time" content="2021-08-01T06:37:22.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="补码">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033701072">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033701072">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033701072">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 63.1578947368421%;"> 
+              <img src="https://z3.ax1x.com/2021/06/22/Re64US.jpg" alt="补码" loading="lazy">
+              <h1>补码</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年04月15日</a>
+</div>
+      
+
+      <h1 id="人家就是要搞懂补码啦！"><a href="#人家就是要搞懂补码啦！" class="headerlink" title="人家就是要搞懂补码啦！"></a>人家就是要搞懂补码啦！</h1><p><code>如果有写的不对的恳请指出</code></p>
+<blockquote>
+<p>好像不是很难</p>
+</blockquote>
+<p><del>那你怎么学了这么久？</del></p>
+<hr>
+<span id="more"></span>
+
+
+<h2 id="什么是补码？"><a href="#什么是补码？" class="headerlink" title="什么是补码？"></a>什么是补码？</h2><ul>
+<li>计算机中 一切数值都以补码的形式表示和储存</li>
+</ul>
+<blockquote>
+<p>众所周知 计算机只有0和1<br>那怎么表示正负数呢？<br>当然是看我补码啦</p>
+</blockquote>
+<h2 id="补码表示负数的机制"><a href="#补码表示负数的机制" class="headerlink" title="补码表示负数的机制"></a>补码表示负数的机制</h2><ul>
+<li>负数最高位为1 表示负数</li>
+<li>正数最高位为0 表示正数</li>
+</ul>
+<h2 id="补码如何计算"><a href="#补码如何计算" class="headerlink" title="补码如何计算"></a>补码如何计算</h2><ul>
+<li>按位取反(符号位除外) 加一</li>
+</ul>
+<blockquote>
+<p>那么 为什么按位取反 还要加一？<br><del>背就对了</del><br>要理解嘛</p>
+</blockquote>
+<p>首先 原码-&gt;补码 按照以下规则</p>
+<ul>
+<li>正数的原码 反码 补码全部相同</li>
+<li>负数的反码是原码按位取反(除去符号位) 补码是反码+1</li>
+</ul>
+<p>例如 <code>-1</code>的原码为<code>1000 0001   其反码为</code>1111 1110<code>   其补码为</code>1111 1111<code> 与</code>1<code>的补码</code>0000 0001<code>相加   之后进位溢出 变为</code>0000 0000`</p>
+<blockquote>
+<p>整数在计算机中以二进制存储(以补码的方式储存) 最高位0代表整数 最高位1代表负数<br>原码很直观 但是相加的时候会出现问题 比如说 <code>1 + (-1) = 0</code> 若是直接<br>使用原码相加(以八个字节表示的整数为例) 即<br><code>0000 0001 + 1000 0001 = 1000 0002 != 0000 0000</code><br>可以看出来 这样子结果无法正确表示(大概) 所以 我们在实际进行运算的时候 是这样的:<br> 将两个数转化为他们各自的补码相加<br><code>0000 0001(正数的补码为其本身) + 1111 1111(负数的补码是他除符号位外按位取反+1) = 0000 0000(所求结果的补码)</code><br>我们再来一个栗子 -&gt; 3 + (-10) = -7<br> <code>0000 0011(补码是本身) + 1111 0110(1000 1010的补码) = 1111 1001(所求结果的补码)</code><br>   <code> 由上式可知 结果的原码是 1000 0111 = -7</code></p>
+</blockquote>
+<p>总结一下</p>
+<h5 id="正负数表示"><a href="#正负数表示" class="headerlink" title="正负数表示"></a>正负数表示</h5><blockquote>
+<p>正数最高符号位0 负数最高符号位1</p>
+</blockquote>
+<h5 id="原码，反码，补码"><a href="#原码，反码，补码" class="headerlink" title="原码，反码，补码"></a>原码，反码，补码</h5><blockquote>
+<p>原码： 最高位为符号位 其余各位为二进制数字位<br>反码： 原码最高符号位不懂，其余各位上的二进制数取反<br>补码： 补码即为反码加1<br>ps: </p>
+</blockquote>
+<ul>
+<li>正数的原码，反码，补码都是自身。</li>
+<li>计算机中的数是用补码的方式存储的</li>
+<li>数字的相减计算 本质上是利用了容器的模 通过补数加法来实现减法(利用溢出)  </li>
+</ul>
+<h5 id="计算机中二进制数对正负数的表示规律"><a href="#计算机中二进制数对正负数的表示规律" class="headerlink" title="计算机中二进制数对正负数的表示规律"></a>计算机中二进制数对正负数的表示规律</h5><blockquote>
+<p>(以八个字节的数为例)<br>正数 ： 0000 0000 ~ 0111 1111  -&gt;  (0<del>127)<br>(正数包括0 所以比负数少一位 只能表示到127)<br>负数 ： 1111 1111 ~ 1000 0000  -&gt;  (-1</del>-128)<br>(转换 1111 1111 成原码 1000 0001 -&gt; -1)<br>(反码比较直观 方便我们阅读 但实际上 计算机中的所有数都是以补码的形式存在的)  </p>
+</blockquote>
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/04/15/%E8%A1%A5%E7%A0%81/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;04&#x2F;15&#x2F;%E8%A1%A5%E7%A0%81&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;04&#x2F;15&#x2F;%E8%A1%A5%E7%A0%81&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/">计算机基础</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%A1%A5%E7%A0%81/" rel="tag">补码</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%AE%B6%E5%B0%B1%E6%98%AF%E8%A6%81%E6%90%9E%E6%87%82%E8%A1%A5%E7%A0%81%E5%95%A6%EF%BC%81"><span class="toc-number">1.</span> <span class="toc-text">人家就是要搞懂补码啦！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%A1%A5%E7%A0%81%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">什么是补码？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E7%A0%81%E8%A1%A8%E7%A4%BA%E8%B4%9F%E6%95%B0%E7%9A%84%E6%9C%BA%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">补码表示负数的机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A5%E7%A0%81%E5%A6%82%E4%BD%95%E8%AE%A1%E7%AE%97"><span class="toc-number">1.3.</span> <span class="toc-text">补码如何计算</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AD%A3%E8%B4%9F%E6%95%B0%E8%A1%A8%E7%A4%BA"><span class="toc-number">1.3.0.0.1.</span> <span class="toc-text">正负数表示</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8E%9F%E7%A0%81%EF%BC%8C%E5%8F%8D%E7%A0%81%EF%BC%8C%E8%A1%A5%E7%A0%81"><span class="toc-number">1.3.0.0.2.</span> <span class="toc-text">原码，反码，补码</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E5%AF%B9%E6%AD%A3%E8%B4%9F%E6%95%B0%E7%9A%84%E8%A1%A8%E7%A4%BA%E8%A7%84%E5%BE%8B"><span class="toc-number">1.3.0.0.3.</span> <span class="toc-text">计算机中二进制数对正负数的表示规律</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033701074"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

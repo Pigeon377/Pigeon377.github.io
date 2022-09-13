@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>Scala学习笔记 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="嗨呀！~ 这门语言是真的复杂你看看隔壁Kotlin!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scala学习笔记">
+<meta property="og:url" content="http://pigeon.asia/2021/11/14/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="嗨呀！~ 这门语言是真的复杂你看看隔壁Kotlin!">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-11-14T08:22:25.000Z">
+<meta property="article:modified_time" content="2021-11-29T08:53:34.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="Scala">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033700964">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033700964">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033700964">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 56.71874999999999%;"> 
+              <img data-fancybox="gallery" src="https://s1.ax1x.com/2022/09/13/vjiBwV.jpg" alt="Scala学习笔记" loading="lazy">
+              <h1>Scala学习笔记</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年11月14日</a>
+</div>
+      
+
+      <h1 id="嗨呀！-这门语言是真的复杂"><a href="#嗨呀！-这门语言是真的复杂" class="headerlink" title="嗨呀！~ 这门语言是真的复杂"></a>嗨呀！~ 这门语言是真的复杂</h1><p><strong>你看看隔壁Kotlin!</strong></p>
+<hr>
+<span id="more"></span>
+
+<p>这几天在啃&lt;&lt;Scala函数式编程&gt;&gt;,说真的，我觉得里面写的函数式数据结构的内容,</p>
+<p>真的非常反人类,不过学就学了,稍微记下笔记？</p>
+<hr>
+<blockquote>
+<ul>
+<li>首先，scala中没有static关键字，取而代之的是<code>object</code>，一个单例对象，<br>单例对象就不说了，想不起来就爪巴回去读设计模式。单例对象不可通过new实例化，<br>单例对象中的所有方法都近似等价于<code>static</code>修饰的方法,需要类名才能访问，老实说，<br>有点像(其实就是)把所有的静态方法和静态字段集合起来。并且<code>object</code>类不能提供<br>构造器参数，也就是说<code>object</code>必须是无参的。这个特殊的对象的构造器在此对象第一次<br>被调用的时候才会真正被使用。同时，我们还可以定义一个与<code>object</code>相同的<code>class</code>，一般<br>称该<code>object</code>为该<code>class</code>的伴生对象，二者必须定义在同一个文件中，二者可以互相访问彼此的私有成员</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>函数式似乎强调数据共享？例如，给你一个<code>List</code>，让你删除第一个元素，你可以返回<br><code>List</code>的第二个节点作为新的<code>List</code>的开头，这样既没有改变原有的<code>List</code>，避免了开销，又达成了目标.<br>(毕竟函数式编程对<code>mutable</code>和<code>side effects</code>深恶痛绝，可以保证<code>List</code>不会因为后续的操作而改变，如果实在要变，<br>那为什么我们不返回一个新的<code>List</code>呢，都用<code>scala</code>了还在乎性能？(<em>^▽^</em>))</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><code>Scala</code>的数据结构，大都持有<code>header</code>和<code>tail</code>两个字段，前者返回第一个元素，后者返回除了第一个元素<br>的其余所有元素，只能说利好递归思想，可以，这很函数式~。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>放置在<code>object</code>中的<code>apply</code>方法,会在我们直接使用<code>val x = object_name(params:???)</code>的时候调用，<br>等价于<code>val x = object_name.apply(params:???)</code>，算是个挺甜的语法糖。补一下，这里看到一个说法，<br><code>apply</code>是类伴生对象的工厂方法，好像挺对的,我们可以通过调用<code>apply</code>产生新的对象。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><code>Scala</code>中没有运算符的概念，所有运算符都是方法，就C++那种感觉，爽!</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>对一个函数，<code>val t = (x:Int, y:Int) =&gt; x+y</code> (只是举个栗子),我们可以这样写，<br><code>val a = t(114514, _)</code>,这样,<code>a</code>会得到一个带一个参数的<code>Lambda</code>表达式，假如调用<br><code>a(1805296)</code>,就会得到<code>1919810</code>，其实就是大家最爱的<code>curry</code>，确实挺方便的，当然你写成<br><code>def t(x:Int)(y:Int) = x+y</code>，但我还是觉得前面那种更爽，至少现在是这样。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Scala编写Future / Option时,报错 <code>No implicit found for parameter executor: ExecutionContext</code>。<br>找不到指定的隐式转换。查了几天资料，CSDN这种垃圾不是机翻就是特么的抄袭，越做越垃圾只能说是这群人活该。<br>最后在StackOverFlow上面翻到答案，使用<code>import scala.concurrent.ExecutionContext.Implicits.global</code>引入隐式转换即可.<br>要是早点用google能浪费这么久啊?😅</li>
+</ul>
+</blockquote>
+<hr>
+<p>哎呀，您都读到这里了，我只能说，看心情再写呗，以上。</p>
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/11/14/Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;11&#x2F;14&#x2F;Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;11&#x2F;14&#x2F;Scala%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Scala/" rel="tag">Scala</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%97%A8%E5%91%80%EF%BC%81-%E8%BF%99%E9%97%A8%E8%AF%AD%E8%A8%80%E6%98%AF%E7%9C%9F%E7%9A%84%E5%A4%8D%E6%9D%82"><span class="toc-number">1.</span> <span class="toc-text">嗨呀！~ 这门语言是真的复杂</span></a></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033700966"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

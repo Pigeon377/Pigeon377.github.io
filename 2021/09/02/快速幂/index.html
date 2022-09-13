@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>快速幂 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="快速幂 这几天学了下矩阵快速幂 就顺便放一起写篇博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速幂">
+<meta property="og:url" content="http://pigeon.asia/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="快速幂 这几天学了下矩阵快速幂 就顺便放一起写篇博客">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://pigeon.asia/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%821.png">
+<meta property="og:image" content="http://pigeon.asia/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%822.png">
+<meta property="og:image" content="http://pigeon.asia/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%823.png">
+<meta property="article:published_time" content="2021-09-02T01:11:45.000Z">
+<meta property="article:modified_time" content="2021-11-09T05:00:06.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="数学">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pigeon.asia/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%821.png">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033700969">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033700969">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033700969">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: NaN%;"> 
+              <img src="https://z3.ax1x.com/2021/09/02/hDcRnU.jpg" alt="快速幂" loading="lazy">
+              <h1>快速幂</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年09月02日</a>
+</div>
+      
+
+      <h1 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h1><blockquote>
+<p>这几天学了下矩阵快速幂 就顺便放一起写篇博客</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="普通的求幂算法"><a href="#普通的求幂算法" class="headerlink" title="普通的求幂算法"></a>普通的求幂算法</h2><blockquote>
+<p>普通求幂咱就不说了，按照朴素的写法，求 $x{^y}$ ,将y个x直接相乘，<br>即使用循环一个一个乘，时间复杂度为O(n)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">pow</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ans = <span class="number">1</span>;  <span class="comment">// 爆掉什么无所谓啦 反正就是个样本完全没有参考价值啦</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=y;++i)&#123;</span><br><span class="line">        ans *= x;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>看的出来，写起来挺简单，而且不容易出错，但是时间复杂度太高了啦！</p>
+</blockquote>
+<h2 id="快速幂算法"><a href="#快速幂算法" class="headerlink" title="快速幂算法"></a>快速幂算法</h2><blockquote>
+<p>由此，我们整了点新活，能快比朴素的求幂算法快上不少.<br>即通过对二进制的巧妙利用，能够将时间复杂度降低到 $O(log{_2}n)$ 的水准</p>
+</blockquote>
+<p>举个栗子:</p>
+<blockquote>
+<p>假设我们要求 $x{^{27}}$<br>又因为17的二进制码为 <strong>0001 1011</strong><br>即<br>$$17 = 2{^4} + 2{^3} + 2{^1} + 2{^0}$$<br>那么， 可以得到<br>$$x{^{27}} = x{^{2{^4}}} + x{^{2{^3}}} + x{^{2{^1}}} + x{^{2{^0}}}$$<br>又因为<br>$$x{^{2{^1}}} = x{^{2{^0}}} *x{^{2{^0}}}$$<br>$$x{^{2{^4}}} = x{^{2{^3}}} *x{^{2{^3}}}$$<br>不难看出，如果构造一个一直保持倍增的乘数，可以在$O(log{_2}n)$时间下拿到正确答案</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">pow</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> base = x;</span><br><span class="line">    <span class="keyword">int</span> ans  = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(y&gt;<span class="number">0</span>)&#123;      </span><br><span class="line">        <span class="comment">// 与运算 对应位位全为1 即为1，</span></span><br><span class="line">        <span class="comment">// 任何数字与1进行&amp;运算，因为1除了最后一位为1，其余均为0，</span></span><br><span class="line">        <span class="comment">// 会导致实质上只有最后一位进行了判断，</span></span><br><span class="line">        <span class="comment">// 最后一位为1即结果为1，反之则为0</span></span><br><span class="line">        <span class="comment">// 最后一位为1说明需要把答案乘上乘数</span></span><br><span class="line">        <span class="comment">// 嘛 思考更重要嘛</span></span><br><span class="line">        <span class="keyword">if</span>(y&amp;<span class="number">1</span>)&#123;</span><br><span class="line">            ans *= base;</span><br><span class="line">        &#125;</span><br><span class="line">        base *= base;</span><br><span class="line">        y &gt;&gt;= <span class="number">1</span>;  </span><br><span class="line">        <span class="comment">// 判断下一位</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上</p>
+<h1 id="矩阵快速幂"><a href="#矩阵快速幂" class="headerlink" title="矩阵快速幂"></a>矩阵快速幂</h1><blockquote>
+<p>其实矩阵快速幂和上面快速幂是差不多的啦，<br>不过是把对象从数换成了矩阵而已啦，<br>人家直接贴代码好了。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] pow(<span class="keyword">int</span>[][] arr,<span class="keyword">int</span> n)&#123;</span><br><span class="line">    <span class="keyword">int</span>[][] ans = <span class="keyword">new</span> <span class="keyword">int</span>[arr.length][arr[<span class="number">0</span>].length];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ans.length;i++) &#123;</span><br><span class="line">        ans[i][i] = <span class="number">1</span>;    <span class="comment">// 单位阵是对角线为1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[][] base = arr;</span><br><span class="line">    <span class="keyword">while</span> (n!=<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span> ((n&amp;<span class="number">1</span>)==<span class="number">1</span>)&#123;</span><br><span class="line">            ans = MatrixQuickPow.multiply(ans,base);</span><br><span class="line">        &#125;</span><br><span class="line">        base = MatrixQuickPow.multiply(base,base);</span><br><span class="line">        n &gt;&gt;= <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] multiply(<span class="keyword">int</span>[][] a,<span class="keyword">int</span>[][] b)&#123;</span><br><span class="line">    <span class="keyword">int</span>[][] ans = <span class="keyword">new</span> <span class="keyword">int</span>[a.length][b[<span class="number">0</span>].length]; <span class="comment">// a*b  *  b*c  == a*c  矩阵行/列数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; b[<span class="number">0</span>].length; j++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;b.length;k++)&#123;</span><br><span class="line">                ans[i][j] += a[i][k]*b[k][j];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><blockquote>
+<p>话说，其实矩阵快速幂，好像在求斐波那契数列上更有帮助呐</p>
+</blockquote>
+<p>假设 我们要求斐波那契数列的第N项，除了递推 $O(n)$ 和递归 $O(n{^n})$ 外，<br>还想整点花 $O(log{n})$ 的，可以这么做</p>
+<p>构造</p>
+<!-- $$
+\left[
+\begin{array}{ll}
+    F{_n}  \\ 
+    F{_{n-1}}
+\end{array}
+\right]
+=
+\left[
+\begin{array}{ll}
+    1  &  1  \\ 
+    1  &  0
+\end{array}
+\right]
+*
+\left[
+\begin{array}{ll}
+    F{_{n-1}}  \\ 
+    F{_{n-2}}
+\end{array}
+\right]
+$$
+
+令 A =  $
+\left[
+\begin{array}{ll}
+    1  &  1  \\ 
+    1  &  0
+\end{array}
+\right]
+$
+逐项递推，可得
+
+$$
+\left[
+\begin{array}{ll}
+    F{_n}  \\ 
+    F{_{n-1}}
+\end{array}
+\right]
+=
+A{^{n-1}}
+*
+\left[
+\begin{array}{ll}
+    F{_{1}}  \\ 
+    F{_{0}}
+\end{array}
+\right]
+=
+A{^{n-1}}
+*
+\left[
+\begin{array}{ll}
+    1  \\ 
+    0
+\end{array}
+\right]
+$$ -->
+
+<blockquote>
+<p>ps: 原谅我图有点糊 不知道为什么latex编译不出来</p>
+</blockquote>
+<p><img data-fancybox="gallery" src="/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%821.png" alt="快速幂1.png" data-caption="快速幂1.png" loading="lazy"><br><img data-fancybox="gallery" src="/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%822.png" alt="快速幂2.png" data-caption="快速幂2.png" loading="lazy"><br><img data-fancybox="gallery" src="/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/%E5%BF%AB%E9%80%9F%E5%B9%823.png" alt="快速幂3.png" data-caption="快速幂3.png" loading="lazy">  </p>
+<p>剩下就是正常的矩阵快速幂了捏，在求 1&lt;&lt;30 项斐波那契数列的时候，速度大概是递推法的500~600倍左右。</p>
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/09/02/%E5%BF%AB%E9%80%9F%E5%B9%82/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;09&#x2F;02&#x2F;%E5%BF%AB%E9%80%9F%E5%B9%82&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;09&#x2F;02&#x2F;%E5%BF%AB%E9%80%9F%E5%B9%82&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%95%B0%E5%AD%A6/" rel="tag">数学</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%B9%82"><span class="toc-number">1.</span> <span class="toc-text">快速幂</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E7%9A%84%E6%B1%82%E5%B9%82%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">普通的求幂算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%B9%82%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">快速幂算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E5%BF%AB%E9%80%9F%E5%B9%82"><span class="toc-number">2.</span> <span class="toc-text">矩阵快速幂</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">2.0.1.</span> <span class="toc-text">应用</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033700978"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

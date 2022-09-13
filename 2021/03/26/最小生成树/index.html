@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>最小生成树 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="奇怪的知识增加啦！ 这几天在学最小生成树，顺手写点东西纪念一下（学到一半就来写的我是屑）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最小生成树">
+<meta property="og:url" content="http://pigeon.asia/2021/03/26/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="奇怪的知识增加啦！ 这几天在学最小生成树，顺手写点东西纪念一下（学到一半就来写的我是屑）">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-03-26T03:16:02.000Z">
+<meta property="article:modified_time" content="2021-10-17T07:50:30.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="树">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033701083">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033701083">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033701083">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 43.75%;"> 
+              <img src="https://i.loli.net/2021/04/10/672BtRCnelhzxXi.png" alt="最小生成树" loading="lazy">
+              <h1>最小生成树</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年03月26日</a>
+</div>
+      
+
+      <h1 id="奇怪的知识增加啦！"><a href="#奇怪的知识增加啦！" class="headerlink" title="奇怪的知识增加啦！"></a>奇怪的知识增加啦！</h1><blockquote>
+<p>这几天在学最小生成树，顺手写点东西纪念一下（学到一半就来写的我是屑）</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+
+
+
+<h2 id="Kruskal-算法"><a href="#Kruskal-算法" class="headerlink" title="Kruskal 算法"></a>Kruskal 算法</h2><blockquote>
+<p>开幕雷击<br>算法的时间复杂度是<code>O(eloge)</code>,适合求解<code>边稀疏的网的最小生成树</code><br>e是网中边的数量</p>
+</blockquote>
+<h3 id="算法思路"><a href="#算法思路" class="headerlink" title="算法思路"></a>算法思路</h3><ol>
+<li><p>将给定的所有边从小到大进行排序，储存至集合E中</p>
+</li>
+<li><p>构造一个有n个顶点的非连通图T，图中每个顶点自成一格连通分量。</p>
+</li>
+<li><p>从E中选择权值最小的边，若该边的两个顶点落在不同的连通分量上，则将<br>此边加入T中；否则丢弃这条边。</p>
+</li>
+<li><p>重复步骤3直至所有顶点在同一连通分量上为止</p>
+</li>
+</ol>
+<p><code>ps：当两个顶点之间有路径连通时，这两个顶点落在相同的连通分量上</code></p>
+<h3 id="算法例题"><a href="#算法例题" class="headerlink" title="算法例题"></a>算法例题</h3><h4 id="洛谷-P3366-【模板】最小生成树"><a href="#洛谷-P3366-【模板】最小生成树" class="headerlink" title="洛谷 P3366 【模板】最小生成树"></a>洛谷 P3366 【模板】最小生成树</h4><h4 id="题面"><a href="#题面" class="headerlink" title="题面"></a>题面</h4><h6 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h6><blockquote>
+<p>如题，给出一个无向图，求出最小生成树，如果该图不连通，则输出 orz。</p>
+</blockquote>
+<h6 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h6><blockquote>
+<p>第一行包含两个整数 N,MN,M，表示该图共有 N 个结点和 M 条无向边。</p>
+</blockquote>
+<blockquote>
+<p>接下来 M 行每行包含三个整数 X_i,Y_i,Z_i,表示有一条长度为 Z_i 的无向边连接结点 X_i,Y_i 。</p>
+</blockquote>
+<h6 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h6><blockquote>
+<p>如果该图连通，则输出一个整数表示最小生成树的各边的长度之和。如果该图不连通则输出 orz。</p>
+</blockquote>
+<h6 id="输入输出样例"><a href="#输入输出样例" class="headerlink" title="输入输出样例"></a>输入输出样例</h6><p> 输入 </p>
+<blockquote>
+<p>4 5<br>1 2 2<br>1 3 2<br>1 4 3<br>2 3 4<br>3 4 3</p>
+</blockquote>
+<blockquote>
+<p>输出 </p>
+</blockquote>
+<blockquote>
+<p>7</p>
+</blockquote>
+<h6 id="说明-提示"><a href="#说明-提示" class="headerlink" title="说明/提示"></a>说明/提示</h6><blockquote>
+<p>数据规模：</p>
+</blockquote>
+<blockquote>
+<p>对于 20% 的数据，N≤5，M≤20。</p>
+</blockquote>
+<blockquote>
+<p>对于 40% 的数据，N≤50，M≤2500。</p>
+</blockquote>
+<blockquote>
+<p>对于 70% 的数据，N≤500，M≤$10^{4}$。</p>
+</blockquote>
+<blockquote>
+<p>对于 100% 的数据：1≤N≤5000，1≤M≤$2×10^{5}$。</p>
+</blockquote>
+<blockquote>
+<p>样例解释：</p>
+<p>所以最小生成树的总边权为 2+2+3=7。</p>
+</blockquote>
+<h4 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> n,m;</span><br><span class="line"><span class="keyword">int</span> tempx,tempy,tempz;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">side</span>&#123;</span></span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> y;</span><br><span class="line">	<span class="keyword">int</span> value;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> set[<span class="number">5007</span>];</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">side</span> <span class="title">arr</span>[200007];</span></span><br><span class="line"><span class="keyword">int</span> cnt;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">cmp</span> <span class="params">(side a, side b)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a.value &lt; b.value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span>  <span class="comment">/* 并查集*/</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(x!=set[x])</span><br><span class="line">	&#123;</span><br><span class="line">		x = set[x] = set[set[x]];</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;++i)</span><br><span class="line">	set[i] = i; </span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		cin &gt;&gt; arr[i].x &gt;&gt; arr[i].y &gt;&gt; arr[i].value;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">sort</span>(arr+<span class="number">1</span>,arr+m+<span class="number">1</span>,cmp);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">int</span> x,y;</span><br><span class="line">		x = <span class="built_in">find</span>(arr[i].x);</span><br><span class="line">		y = <span class="built_in">find</span>(arr[i].y);</span><br><span class="line">		<span class="keyword">if</span>(x==y)        <span class="comment">// 在同一连通分量上直接丢弃</span></span><br><span class="line">		<span class="keyword">continue</span>;</span><br><span class="line">		ans += arr[i].value;</span><br><span class="line">		set[y] = x; </span><br><span class="line">		<span class="keyword">if</span>(++cnt==n<span class="number">-1</span>)   <span class="comment">// 因为是树结构 不能有环 所以在不形成环的情况下 只有n-1条边（n是顶点）</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; ans;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Prim算法"><a href="#Prim算法" class="headerlink" title="Prim算法"></a>Prim算法</h2><blockquote>
+<p>什么 你问我为什么没写？<br>当然是不会啦~(还没学完)</p>
+</blockquote>
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/03/26/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;03&#x2F;26&#x2F;%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;03&#x2F;26&#x2F;%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E5%9B%BE%E8%AE%BA/">图论</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%A0%91/" rel="tag">树</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A5%87%E6%80%AA%E7%9A%84%E7%9F%A5%E8%AF%86%E5%A2%9E%E5%8A%A0%E5%95%A6%EF%BC%81"><span class="toc-number">1.</span> <span class="toc-text">奇怪的知识增加啦！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Kruskal-%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.</span> <span class="toc-text">Kruskal 算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%80%9D%E8%B7%AF"><span class="toc-number">1.1.1.</span> <span class="toc-text">算法思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E4%BE%8B%E9%A2%98"><span class="toc-number">1.1.2.</span> <span class="toc-text">算法例题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B4%9B%E8%B0%B7-P3366-%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">洛谷 P3366 【模板】最小生成树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E9%9D%A2"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">题面</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.2.2.0.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.2.2.0.2.</span> <span class="toc-text">输入格式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.2.2.0.3.</span> <span class="toc-text">输出格式</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B"><span class="toc-number">1.1.2.2.0.4.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%AF%B4%E6%98%8E-%E6%8F%90%E7%A4%BA"><span class="toc-number">1.1.2.2.0.5.</span> <span class="toc-text">说明&#x2F;提示</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">题解</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prim%E7%AE%97%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">Prim算法</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033701089"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>

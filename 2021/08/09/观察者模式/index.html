@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>观察者模式 - 奇怪的博客</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="设计模式学习笔记(2) 观察者模式观察者模式(Observer Pattern) -&gt; 定义对象间的一种一对多的依赖关系使得每当一个对象的状态改变，所有依赖于它的对象都会得到通知并自动更新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="观察者模式">
+<meta property="og:url" content="http://pigeon.asia/2021/08/09/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="奇怪的博客">
+<meta property="og:description" content="设计模式学习笔记(2) 观察者模式观察者模式(Observer Pattern) -&gt; 定义对象间的一种一对多的依赖关系使得每当一个对象的状态改变，所有依赖于它的对象都会得到通知并自动更新">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://pigeon.asia/2021/08/09/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/%E8%8D%89%E5%9B%BE(1).png">
+<meta property="article:published_time" content="2021-08-09T14:29:08.000Z">
+<meta property="article:modified_time" content="2021-08-14T04:27:28.000Z">
+<meta property="article:author" content="陈年老咕">
+<meta property="article:tag" content="观察者模式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pigeon.asia/2021/08/09/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/%E8%8D%89%E5%9B%BE(1).png">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/justifiedGallery/justifiedGallery.min.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1663033700985">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1663033700985">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1663033700985">
+        
+    
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://s1.ax1x.com/2022/09/13/vjiBwV.jpg)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="陈年老咕" class="mdui-btn mdui-btn-icon"><img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="陈年老咕">
+            <img src="https://s1.ax1x.com/2022/09/13/vjihex.jpg" alt="陈年老咕" alt="陈年老咕">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>26</div>
+        <div><span>Tags</span>17</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://github.com/Pigeon377/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Python/">Python</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Scala/">Scala</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/algorithm/">algorithm</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/前端/">前端</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/图论/">图论</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/数据结构/">数据结构</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机基础/">计算机基础</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/计算机网络/">计算机网络</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/Dotty/" style="font-size: 10px;">Dotty</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Scala/" style="font-size: 10px;">Scala</a> <a href="/tags/TCP-IP/" style="font-size: 20px;">TCP/IP</a> <a href="/tags/dotty/" style="font-size: 10px;">dotty</a> <a href="/tags/flask/" style="font-size: 10px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/%E5%9B%BE%E8%AE%BA/" style="font-size: 10px;">图论</a> <a href="/tags/%E5%A0%86/" style="font-size: 15px;">堆</a> <a href="/tags/%E6%95%B0%E5%AD%A6/" style="font-size: 10px;">数学</a> <a href="/tags/%E6%9D%82%E8%AE%B0/" style="font-size: 10px;">杂记</a> <a href="/tags/%E6%A0%91/" style="font-size: 20px;">树</a> <a href="/tags/%E8%A1%A5%E7%A0%81/" style="font-size: 10px;">补码</a> <a href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">观察者模式</a> <a href="/tags/%E8%AE%BE%E8%AE%A1%E7%90%86%E8%AE%BA/" style="font-size: 10px;">设计理论</a> <a href="/tags/%E8%BD%AF%E5%B7%A5%E4%BD%9C%E4%B8%9A/" style="font-size: 15px;">软工作业</a>
+    </div>
+    
+      <script>
+        var maxTagcloud = parseInt(17);
+        var tags_length = parseInt(17);
+        var tags_arr = [];
+        for(var i = 0; i < tags_length; i++){
+          tags_arr.push(i);
+        }
+        tags_arr.sort(function (l, r) {
+          return Math.random() > 0.5 ? -1 : 1;
+        });
+        tags_arr = tags_arr.slice(0, maxTagcloud < tags_length ? tags_length - maxTagcloud : 0);
+        for(var tag_i = 0; tag_i < tags_arr.length; tag_i++){
+          document.getElementById("randomtagcloud").children[tags_arr[tag_i]].style.display = 'none';
+        }
+      </script>
+    
+  </div>
+
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/">2021</a><span class="archive-list-count">22</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/09/13/%E5%85%B3%E4%BA%8E%E6%88%91/">关于我...</a>
+          </li>
+        
+          <li>
+            <a href="/2022/09/13/%E5%88%86%E5%89%B2%E7%BA%BF/">分割线</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/18/Dotty%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">Dotty学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2022/02/11/Dotty-%E8%8E%B7%E5%8F%96%E5%85%B7%E4%BD%93%E7%9A%84%E6%B3%9B%E5%9E%8B%E7%B1%BB%E5%9E%8B/">Dotty : 获取具体的泛型类型</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E5%85%B3%E4%BA%8E%E5%AF%BC%E5%85%A5%E4%BA%86maven%E4%BE%9D%E8%B5%96%E5%8D%B4%E4%BB%8D%E7%84%B6%E6%B2%A1%E5%8A%9E%E6%B3%95%E7%94%A8%E8%BF%99%E4%BB%B6%E4%BA%8B/">关于导入了maven依赖却仍然没办法用这件事</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 陈年老咕
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: NaN%;"> 
+              <img src="https://z3.ax1x.com/2021/08/10/fJKrAf.jpg" alt="观察者模式" loading="lazy">
+              <h1>观察者模式</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2021年08月09日</a>
+</div>
+      
+
+      <h1 id="设计模式学习笔记-2-观察者模式"><a href="#设计模式学习笔记-2-观察者模式" class="headerlink" title="设计模式学习笔记(2) 观察者模式"></a>设计模式学习笔记(2) 观察者模式</h1><p>观察者模式(Observer Pattern) -&gt; 定义对象间的一种一对多的依赖关系<br><strong>使得每当一个对象的状态改变，所有依赖于它的对象都会得到通知并自动更新</strong></p>
+<hr>
+<span id="more"></span>
+
+<p>观察者模式是一种 $对象行为模式$</p>
+<p>观察者模式的别名包括:</p>
+<ul>
+<li>发布-订阅(Publish-Subscribe)模式</li>
+<li>模型-视图(Model-View)模式</li>
+<li>源-监听器(Source-Listener)模式</li>
+<li>从属者模式(dependents)模式</li>
+</ul>
+<p>发布订阅算是广义上的观察者模式。  </p>
+<p><img data-fancybox="gallery" src="/2021/08/09/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/%E8%8D%89%E5%9B%BE(1).png" alt="艹图(1)" data-caption="艹图(1)" loading="lazy"></p>
+<h2 id="设计原则"><a href="#设计原则" class="headerlink" title="设计原则"></a>设计原则</h2><p>对象之间的松耦合</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><blockquote>
+<ul>
+<li>Subject (目标/被观察者): 被观察者，指被观察的对象，这个类中有一个容器，用于存放观察者对象。<br>这个类可以是接口，抽象类或是具体的类，因为很多情况下会与其他模式混用，所以使用抽象类居多。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>ConcreteSubject(具体目标/具体被观察者): 目标的子类，通常情况下经常包括经常改变的数据，<br>当它的状态改变时，会向它的观察者们发出信息。(如果不需要扩展Subject类，这个类是可以省略的)</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Observer(观察者/所有观察者的父类): 随着观察目标的改变而更新。实际使用中多为接口，该接口声明了<br>更新数据的方法update()，因此又被称为 抽象观察者 。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>ConcreteObserver(具体观察者): 在具体观察者中维护一个指向被观察者对象的引用，它储存具体观察者的有关状态，<br>这些状态需要和具体目标的状态保持一致;它实现在抽象观察者 Observer 中定义的update()。</li>
+</ul>
+</blockquote>
+<h2 id="优点-缺点"><a href="#优点-缺点" class="headerlink" title="优点/缺点"></a>优点/缺点</h2><p>优点:  </p>
+<ul>
+<li>观察者和被观察者是抽象耦合的</li>
+<li>建立一套触发机制</li>
+</ul>
+<p>缺点:</p>
+<ul>
+<li>如果一个观察目标有许多直接和间接的观察者，通知所有的观察者会带来较大的时间开销</li>
+<li>假如观察者和观察目标之间有循环依赖，观察目标可能会触发循环调用，使系统崩溃</li>
+<li>观察者模式无法使观察者知道观察目标如何发生变化，仅能告知发生了变化</li>
+</ul>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
+<li>一个抽象模型有两个方面，其中一个方面依赖于另一个方面。将这些方面封装在独立的对象中使它们可以各自独立地改变和复用。</li>
+<li>一个对象的改变将导致其他一个或多个对象也发生改变，而不知道具体有多少对象将发生改变，可以降低对象之间的耦合度。</li>
+<li>一个对象必须通知其他对象，而并不知道这些对象是谁。</li>
+<li>需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。</li>
+</ul>
+<p>(参考菜鸟教程)  </p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="创建Subject类"><a href="#创建Subject类" class="headerlink" title="创建Subject类"></a>创建Subject类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> ObserverPattern;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Observer&gt; observers = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">notifyAllObservers</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Observer observer:observers)&#123;</span><br><span class="line">            observer.update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer observer)</span></span>&#123;</span><br><span class="line">        observers.add(observer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeObserver</span><span class="params">(Observer observer)</span></span>&#123;</span><br><span class="line">        observers.remove(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        doSomething();</span><br><span class="line">        notifyAllObservers();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">// 要求子类重写该方法 但是不能直接被外部调用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="创建ConcreteSubject类"><a href="#创建ConcreteSubject类" class="headerlink" title="创建ConcreteSubject类"></a>创建ConcreteSubject类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> ObserverPattern;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">extends</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doSomething</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;abab&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建Observer接口"><a href="#创建Observer接口" class="headerlink" title="创建Observer接口"></a>创建Observer接口</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> ObserverPattern;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建ConcreteObserver类"><a href="#创建ConcreteObserver类" class="headerlink" title="创建ConcreteObserver类"></a>创建ConcreteObserver类</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> ObserverPattern;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">implements</span> <span class="title">Observer</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.getClass().getName()+<span class="string">&quot;被更新啦！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>陈年老咕<br>
+        <strong>Link：</strong><a href="http://pigeon.asia/2021/08/09/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" title="http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;08&#x2F;09&#x2F;%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;pigeon.asia&#x2F;2021&#x2F;08&#x2F;09&#x2F;%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="tag">观察者模式</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">设计模式学习笔记(2) 观察者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="toc-number">1.1.</span> <span class="toc-text">设计原则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E7%82%B9-%E7%BC%BA%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">优点&#x2F;缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.4.</span> <span class="toc-text">使用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.5.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BASubject%E7%B1%BB"><span class="toc-number">1.5.1.</span> <span class="toc-text">创建Subject类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAConcreteSubject%E7%B1%BB"><span class="toc-number">1.5.2.</span> <span class="toc-text">创建ConcreteSubject类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAObserver%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.5.3.</span> <span class="toc-text">创建Observer接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAConcreteObserver%E7%B1%BB"><span class="toc-number">1.5.4.</span> <span class="toc-text">创建ConcreteObserver类</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/jquery.min.js"></script>
+<script src="/lib/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1663033700991"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+</body>
+
+</html>
